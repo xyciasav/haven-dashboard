@@ -1,6 +1,6 @@
 # Haven
 
-Current release: **v0.2.4** · Docker image: `haven-dashboard:0.2.4`
+Current release: **v0.2.5** · Docker image: `haven-dashboard:0.2.5`
 
 A calm, self-hosted home dashboard inspired by Organizr: application launcher, weather, Home Assistant status, media updates, scenes, calendar, and Keycloak authentication.
 
@@ -59,3 +59,5 @@ If a Keycloak configuration prevents login, open `http://YOUR-SERVER:43127/?setu
 For a guaranteed authentication lockout recovery, set `HAVEN_AUTH_BYPASS=true` in the Portainer stack environment and redeploy. This overrides the saved login requirement at container startup. Set it back to `false` after correcting Keycloak.
 
 The browser uses Authorization Code Flow with PKCE. The server independently validates the access token through Keycloak before accessing protected integration routes. Home Assistant credentials remain server-side in the container environment.
+
+Haven bundles the official Keycloak JavaScript adapter (v26.2.4) inside its image, so login does not depend on a public CDN being reachable.

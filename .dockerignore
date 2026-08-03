@@ -6,3 +6,4 @@ docker-compose.yml
 config.js
 *.log
 __pycache__
+node_modules

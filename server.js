@@ -3,7 +3,7 @@ import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.2.4';
+const version = process.env.HAVEN_VERSION || '0.2.5';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');
@@ -20,10 +20,10 @@ const clientConfig = {
   user:{name:process.env.HAVEN_USER_NAME||'Mike'},
   auth:{
     ...runtimeAuth,
-    adapterUrl:'https://cdn.jsdelivr.net/npm/keycloak-js/+esm'
+    adapterUrl:'/vendor/keycloak.js'
   }
 };
-async function writeClientConfig(){clientConfig.auth={...runtimeAuth,enabled:runtimeAuth.enabled&&!authBypass,adapterUrl:'https://cdn.jsdelivr.net/npm/keycloak-js/+esm'};await writeFile(join(publicDir,'config.js'),`export default ${JSON.stringify(clientConfig)};\n`,'utf8')}
+async function writeClientConfig(){clientConfig.auth={...runtimeAuth,enabled:runtimeAuth.enabled&&!authBypass,adapterUrl:'/vendor/keycloak.js'};await writeFile(join(publicDir,'config.js'),`export default ${JSON.stringify(clientConfig)};\n`,'utf8')}
 await writeClientConfig();
 
 const securityHeaders = {
