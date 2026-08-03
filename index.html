@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="version.css" />
   <link rel="stylesheet" href="keycloak.css" />
   <link rel="stylesheet" href="recovery.css" />
+  <link rel="stylesheet" href="app-manager.css" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -36,7 +37,7 @@
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.2.9</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.3.0</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
@@ -45,6 +46,7 @@
       </nav>
       <div class="sidebar-bottom">
         <button class="nav-item" data-page="settings"><span data-icon="settings"></span><span>Settings</span></button>
+        <button class="nav-item" data-logout><span data-icon="logOut"></span><span>Sign out</span></button>
         <button class="profile-mini" id="profile-button">
           <span class="avatar">ML</span>
           <span class="profile-copy"><strong id="sidebar-name">Mike</strong><small>Administrator</small></span>
@@ -126,6 +128,6 @@
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
-  <script type="module" src="/app.js?v=0.2.9"></script>
+  <script type="module" src="/app.js?v=0.3.0"></script>
 </body>
 </html>

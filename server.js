@@ -3,7 +3,7 @@ import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.2.9';
+const version = process.env.HAVEN_VERSION || '0.3.0';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');
@@ -34,7 +34,7 @@ function securityHeaders(){
     'X-Frame-Options':'SAMEORIGIN',
     'Referrer-Policy':'strict-origin-when-cross-origin',
     'Permissions-Policy':'camera=(), microphone=(), geolocation=()',
-    'Content-Security-Policy':`default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https: ${keycloakOrigin}; img-src 'self' data:; frame-ancestors 'self'`
+    'Content-Security-Policy':`default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https: ${keycloakOrigin}; img-src 'self' data: http: https:; frame-ancestors 'self'`
   };
 }
 
