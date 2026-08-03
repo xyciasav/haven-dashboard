@@ -3,11 +3,12 @@ import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.2.3';
+const version = process.env.HAVEN_VERSION || '0.2.4';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');
 const setupToken = process.env.HAVEN_SETUP_TOKEN || '';
+const authBypass = String(process.env.HAVEN_AUTH_BYPASS).toLowerCase()==='true';
 let runtimeAuth = {enabled:String(process.env.KEYCLOAK_ENABLED).toLowerCase()==='true',url:(process.env.KEYCLOAK_URL||'').replace(/\/$/,''),realm:process.env.KEYCLOAK_REALM||'',clientId:process.env.KEYCLOAK_CLIENT_ID||'haven'};
 await mkdir(dataDir,{recursive:true});
 try{const stored=JSON.parse(await readFile(settingsFile,'utf8'));if(stored.auth)runtimeAuth={...runtimeAuth,...stored.auth}}catch{}
@@ -22,7 +23,7 @@ const clientConfig = {
     adapterUrl:'https://cdn.jsdelivr.net/npm/keycloak-js/+esm'
   }
 };
-async function writeClientConfig(){clientConfig.auth={...runtimeAuth,adapterUrl:'https://cdn.jsdelivr.net/npm/keycloak-js/+esm'};await writeFile(join(publicDir,'config.js'),`export default ${JSON.stringify(clientConfig)};\n`,'utf8')}
+async function writeClientConfig(){clientConfig.auth={...runtimeAuth,enabled:runtimeAuth.enabled&&!authBypass,adapterUrl:'https://cdn.jsdelivr.net/npm/keycloak-js/+esm'};await writeFile(join(publicDir,'config.js'),`export default ${JSON.stringify(clientConfig)};\n`,'utf8')}
 await writeClientConfig();
 
 const securityHeaders = {
@@ -88,7 +89,7 @@ async function staticFile(req,res,url){
 createServer(async(req,res)=>{
   const url=new URL(req.url,'http://haven');
   if(url.pathname==='/health')return send(res,200,'healthy\n','text/plain');
-  if(url.pathname==='/api/integrations')return send(res,200,{version,homeAssistant:{configured:Boolean(homeAssistantUrl&&homeAssistantToken)},keycloak:{configured:Boolean(runtimeAuth.enabled&&runtimeAuth.url&&runtimeAuth.realm),url:runtimeAuth.url,realm:runtimeAuth.realm,clientId:runtimeAuth.clientId,enabled:runtimeAuth.enabled},setup:{available:Boolean(setupToken)}});
+  if(url.pathname==='/api/integrations')return send(res,200,{version,homeAssistant:{configured:Boolean(homeAssistantUrl&&homeAssistantToken)},keycloak:{configured:Boolean(runtimeAuth.enabled&&runtimeAuth.url&&runtimeAuth.realm),url:runtimeAuth.url,realm:runtimeAuth.realm,clientId:runtimeAuth.clientId,enabled:runtimeAuth.enabled,bypassed:authBypass},setup:{available:Boolean(setupToken)}});
   if(url.pathname==='/api/setup/keycloak'&&req.method==='POST')return configureKeycloak(req,res);
   if(url.pathname.startsWith('/api/home-assistant'))return homeAssistant(req,res,url);
   return staticFile(req,res,url);
