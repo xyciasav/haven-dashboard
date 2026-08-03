@@ -1,0 +1,7 @@
+.git
+.gitignore
+README.md
+compose.yaml
+config.js
+*.log
+__pycache__
