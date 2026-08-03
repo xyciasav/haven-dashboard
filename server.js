@@ -3,6 +3,7 @@ import { readFile, stat, writeFile } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
 const port = Number(process.env.PORT || 3000);
+const version = process.env.HAVEN_VERSION || '0.1.0';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const keycloakUrl = (process.env.KEYCLOAK_URL || '').replace(/\/$/, '');
 const keycloakRealm = process.env.KEYCLOAK_REALM || '';
@@ -71,7 +72,7 @@ async function staticFile(req,res,url){
 createServer(async(req,res)=>{
   const url=new URL(req.url,'http://haven');
   if(url.pathname==='/health')return send(res,200,'healthy\n','text/plain');
-  if(url.pathname==='/api/integrations')return send(res,200,{homeAssistant:{configured:Boolean(homeAssistantUrl&&homeAssistantToken)},keycloak:{configured:Boolean(keycloakUrl&&keycloakRealm)}});
+  if(url.pathname==='/api/integrations')return send(res,200,{version,homeAssistant:{configured:Boolean(homeAssistantUrl&&homeAssistantToken)},keycloak:{configured:Boolean(keycloakUrl&&keycloakRealm)}});
   if(url.pathname.startsWith('/api/home-assistant'))return homeAssistant(req,res,url);
   return staticFile(req,res,url);
 }).listen(port,'0.0.0.0',()=>console.log(`Haven listening on ${port}`));

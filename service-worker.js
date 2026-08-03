@@ -1,5 +1,5 @@
-const CACHE = 'haven-shell-v2';
-const SHELL = ['/', '/index.html', '/styles.css', '/settings.css', '/security.css', '/app.js', '/manifest.webmanifest', '/icons/haven.svg', '/icons/haven-192.png', '/icons/haven-512.png'];
+const CACHE = 'haven-shell-v0.1.0';
+const SHELL = ['/', '/index.html', '/styles.css', '/settings.css', '/security.css', '/version.css', '/app.js', '/manifest.webmanifest', '/icons/haven.svg', '/icons/haven-192.png', '/icons/haven-512.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
