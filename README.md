@@ -19,7 +19,7 @@ The repository includes a production Nginx image and a Portainer-ready `compose.
 1. In Portainer, open **Stacks** → **Add stack**.
 2. Choose **Repository** and paste this repository's GitHub URL.
 3. Set the compose path to `compose.yaml` and deploy the stack.
-4. Open `http://YOUR-SERVER:8080`.
+4. Open `http://YOUR-SERVER:43127`.
 
 Before enabling authentication, edit the environment values in `compose.yaml`:
 
@@ -30,7 +30,7 @@ KEYCLOAK_REALM: home
 KEYCLOAK_CLIENT_ID: haven
 ```
 
-For a reverse proxy, point the public hostname at Haven's port `8080`. Add that final public URL to the Keycloak client's valid redirect URIs and web origins. The container has a `/health` endpoint, runs with a read-only filesystem, and restarts automatically.
+For a reverse proxy, point the public hostname at Haven's port `43127`. Add that final public URL to the Keycloak client's valid redirect URIs and web origins. The container has a `/health` endpoint, runs with a read-only filesystem, and restarts automatically.
 
 ## Keycloak setup
 

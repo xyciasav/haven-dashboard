@@ -6,7 +6,7 @@ services:
     container_name: haven
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "43127:80"
     environment:
       HAVEN_USER_NAME: Mike
       KEYCLOAK_ENABLED: "false"
