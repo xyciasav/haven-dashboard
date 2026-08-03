@@ -1,6 +1,6 @@
 # Haven
 
-Current release: **v0.2.2** · Docker image: `haven-dashboard:0.2.2`
+Current release: **v0.2.3** · Docker image: `haven-dashboard:0.2.3`
 
 A calm, self-hosted home dashboard inspired by Organizr: application launcher, weather, Home Assistant status, media updates, scenes, calendar, and Keycloak authentication.
 
@@ -53,5 +53,7 @@ For Cloudflare, route your Tunnel or reverse proxy to `http://haven:3000` when i
 5. Enable **Require Keycloak login** and save. Haven reloads and starts the login flow.
 
 Authentication configuration is persisted in the `haven-data` Docker volume and shared by every phone. The setup token is checked by the server and is never saved in the browser.
+
+If a Keycloak configuration prevents login, open `http://YOUR-SERVER:43127/?setup=1`. Recovery mode opens Settings so the configuration can be corrected or disabled using the setup token. LAN HTTP uses a compatibility login mode; HTTPS automatically enables PKCE S256.
 
 The browser uses Authorization Code Flow with PKCE. The server independently validates the access token through Keycloak before accessing protected integration routes. Home Assistant credentials remain server-side in the container environment.

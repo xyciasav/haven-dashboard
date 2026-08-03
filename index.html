@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="security.css" />
   <link rel="stylesheet" href="version.css" />
   <link rel="stylesheet" href="keycloak.css" />
+  <link rel="stylesheet" href="recovery.css" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -28,12 +29,14 @@
       <h1>Welcome to Haven</h1>
       <p class="muted">Sign in securely to open your private dashboard.</p>
       <button id="login-button" class="primary-button">Continue with Keycloak <span>→</span></button>
+      <p class="auth-error hidden" id="auth-error"></p>
+      <a class="recovery-link" href="?setup=1">Authentication settings</a>
     </div>
   </div>
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.2.2</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.2.3</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
