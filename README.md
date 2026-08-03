@@ -14,7 +14,7 @@ Then open `http://localhost:4173`.
 
 ## Deploy with Portainer
 
-The repository includes a production Nginx image and a Portainer-ready `compose.yaml`.
+The repository includes a production Node image and a Portainer-ready `docker-compose.yml`.
 
 1. In Portainer, open **Stacks** → **Add stack**.
 2. Choose **Repository** and paste this repository's GitHub URL.
@@ -28,6 +28,8 @@ KEYCLOAK_ENABLED: "true"
 KEYCLOAK_URL: https://auth.your-domain.com
 KEYCLOAK_REALM: home
 KEYCLOAK_CLIENT_ID: haven
+HOME_ASSISTANT_URL: https://home-assistant.your-domain.com
+HOME_ASSISTANT_TOKEN: paste-in-portainer-do-not-commit
 ```
 
 For a reverse proxy, point the public hostname at Haven's port `43127`. Add that final public URL to the Keycloak client's valid redirect URIs and web origins. The container has a `/health` endpoint, runs with a read-only filesystem, and restarts automatically.
@@ -39,7 +41,9 @@ Haven is an installable PWA with a home-screen icon, standalone display mode, an
 - Android/Chrome: use Haven's **Install app** button or the browser's **Install app** menu item.
 - iPhone/Safari: tap **Share** → **Add to Home Screen**.
 
-Settings are stored separately in each phone's browser. The settings page currently supports display name, weather location, application URLs, and Home Assistant URL/token with a connection test. Home Assistant credentials should move to a server-side secrets store before exposing Haven outside a trusted network.
+Display preferences and application URLs are stored separately in each phone's browser. Sensitive integration credentials are stored as Portainer environment variables and never sent to the phone. Haven validates the signed-in user against Keycloak before proxying any Home Assistant request.
+
+For Cloudflare, route your Tunnel or reverse proxy to `http://haven:3000` when it shares Haven's Docker network, or to `http://YOUR-SERVER:43127`. Use **Full (strict)** TLS mode and keep the public Keycloak redirect URI synchronized with Haven's final HTTPS hostname.
 
 ## Keycloak setup
 
@@ -48,4 +52,6 @@ Settings are stored separately in each phone's browser. The settings page curren
 3. Add the origin to **Web origins** (for local development: `http://localhost:4173`).
 4. Edit `config.js`, set the server URL, realm, and client ID, then set `auth.enabled` to `true`.
 
-The browser uses Authorization Code Flow with PKCE. Integration tokens must not be stored in frontend code; the production step should add a small server-side API/session layer for Home Assistant, calendars, and Arr services.
+For Docker/Portainer, use the equivalent environment variables in `docker-compose.yml`; the container generates the browser-safe configuration at startup.
+
+The browser uses Authorization Code Flow with PKCE. The server independently validates the access token through Keycloak before accessing protected integration routes. Home Assistant credentials remain server-side in the container environment.

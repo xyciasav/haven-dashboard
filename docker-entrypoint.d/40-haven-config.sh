@@ -7,6 +7,5 @@ set -eu
 : "${KEYCLOAK_REALM:=home}"
 : "${KEYCLOAK_CLIENT_ID:=haven}"
 
-export HAVEN_USER_NAME KEYCLOAK_ENABLED KEYCLOAK_URL KEYCLOAK_REALM KEYCLOAK_CLIENT_ID
-cp -R /opt/haven/site/. /usr/share/nginx/html/
-envsubst < /opt/haven/config.template.js > /usr/share/nginx/html/config.js
+cp -R /opt/haven/site/. /app/public/
+exec "$@"

@@ -1,14 +1,17 @@
-FROM nginx:1.27-alpine
+FROM node:22-alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY index.html styles.css settings.css app.js manifest.webmanifest service-worker.js /opt/haven/site/
+WORKDIR /app
+COPY server.js /app/server.js
+COPY index.html styles.css settings.css security.css app.js manifest.webmanifest service-worker.js /opt/haven/site/
 COPY icons /opt/haven/site/icons
-COPY config.template.js /opt/haven/config.template.js
-COPY docker-entrypoint.d/40-haven-config.sh /docker-entrypoint.d/40-haven-config.sh
+COPY docker-entrypoint.d/40-haven-config.sh /usr/local/bin/haven-entrypoint
 
-RUN chmod +x /docker-entrypoint.d/40-haven-config.sh && rm -rf /usr/share/nginx/html/*
+RUN chmod +x /usr/local/bin/haven-entrypoint && addgroup -S haven && adduser -S haven -G haven && mkdir -p /app/public && chown -R haven:haven /app /opt/haven
 
-EXPOSE 80
+USER haven
+EXPOSE 3000
+ENTRYPOINT ["/usr/local/bin/haven-entrypoint"]
+CMD ["node", "/app/server.js"]
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget -qO- http://127.0.0.1/health || exit 1
+  CMD wget -qO- http://127.0.0.1:3000/health || exit 1
