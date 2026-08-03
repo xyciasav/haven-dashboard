@@ -18,7 +18,7 @@ The repository includes a production Nginx image and a Portainer-ready `compose.
 
 1. In Portainer, open **Stacks** → **Add stack**.
 2. Choose **Repository** and paste this repository's GitHub URL.
-3. Set the compose path to `compose.yaml` and deploy the stack.
+3. Use the default compose path `docker-compose.yml` and deploy the stack.
 4. Open `http://YOUR-SERVER:43127`.
 
 Before enabling authentication, edit the environment values in `compose.yaml`:

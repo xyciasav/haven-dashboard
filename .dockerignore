@@ -2,6 +2,7 @@
 .gitignore
 README.md
 compose.yaml
+docker-compose.yml
 config.js
 *.log
 __pycache__
