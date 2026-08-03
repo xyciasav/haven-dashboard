@@ -3,7 +3,7 @@ import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.2.6';
+const version = process.env.HAVEN_VERSION || '0.2.7';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');
@@ -26,16 +26,20 @@ const clientConfig = {
 async function writeClientConfig(){clientConfig.auth={...runtimeAuth,enabled:runtimeAuth.enabled&&!authBypass,adapterUrl:'/vendor/keycloak.js'};await writeFile(join(publicDir,'config.js'),`export default ${JSON.stringify(clientConfig)};\n`,'utf8')}
 await writeClientConfig();
 
-const securityHeaders = {
-  'X-Content-Type-Options':'nosniff',
-  'X-Frame-Options':'SAMEORIGIN',
-  'Referrer-Policy':'strict-origin-when-cross-origin',
-  'Permissions-Policy':'camera=(), microphone=(), geolocation=()',
-  'Content-Security-Policy':"default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https:; img-src 'self' data:; frame-ancestors 'self'"
-};
+function securityHeaders(){
+  let keycloakOrigin='';
+  try{keycloakOrigin=runtimeAuth.url?new URL(runtimeAuth.url).origin:''}catch{}
+  return {
+    'X-Content-Type-Options':'nosniff',
+    'X-Frame-Options':'SAMEORIGIN',
+    'Referrer-Policy':'strict-origin-when-cross-origin',
+    'Permissions-Policy':'camera=(), microphone=(), geolocation=()',
+    'Content-Security-Policy':`default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https: ${keycloakOrigin}; img-src 'self' data:; frame-ancestors 'self'`
+  };
+}
 
 function send(res,status,body,type='application/json'){
-  res.writeHead(status,{...securityHeaders,'Content-Type':type,'Cache-Control':'no-store'});
+  res.writeHead(status,{...securityHeaders(),'Content-Type':type,'Cache-Control':'no-store'});
   res.end(type==='application/json'&&typeof body!=='string'?JSON.stringify(body):body);
 }
 
@@ -71,7 +75,7 @@ async function homeAssistant(req,res,url){
   try{
     const upstream=await fetch(`${homeAssistantUrl}${suffix}${url.search}`,{method:req.method,headers:{Authorization:`Bearer ${homeAssistantToken}`,'Content-Type':req.headers['content-type']||'application/json'},signal:AbortSignal.timeout(10000)});
     const body=Buffer.from(await upstream.arrayBuffer());
-    res.writeHead(upstream.status,{...securityHeaders,'Content-Type':upstream.headers.get('content-type')||'application/json','Cache-Control':'no-store'});res.end(body);
+    res.writeHead(upstream.status,{...securityHeaders(),'Content-Type':upstream.headers.get('content-type')||'application/json','Cache-Control':'no-store'});res.end(body);
   }catch{return send(res,502,{error:'Home Assistant could not be reached'})}
 }
 
@@ -82,7 +86,7 @@ async function staticFile(req,res,url){
   if(!filePath.startsWith(publicDir))return send(res,403,'Forbidden','text/plain');
   try{if(!(await stat(filePath)).isFile())throw new Error();}
   catch{filePath=join(publicDir,'index.html')}
-  try{const body=await readFile(filePath);const cache=filePath.endsWith('config.js')?'no-store':filePath.endsWith('service-worker.js')?'no-cache':'public, max-age=3600';res.writeHead(200,{...securityHeaders,'Content-Type':mime[extname(filePath)]||'application/octet-stream','Cache-Control':cache});res.end(body)}
+  try{const body=await readFile(filePath);const cache=filePath.endsWith('config.js')?'no-store':filePath.endsWith('service-worker.js')?'no-cache':'public, max-age=3600';res.writeHead(200,{...securityHeaders(),'Content-Type':mime[extname(filePath)]||'application/octet-stream','Cache-Control':cache});res.end(body)}
   catch{return send(res,404,'Not found','text/plain')}
 }
 
