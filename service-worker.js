@@ -1,4 +1,4 @@
-const CACHE = 'haven-shell-v0.2.7';
+const CACHE = 'haven-shell-v0.2.8';
 const SHELL = ['/', '/index.html', '/styles.css', '/settings.css', '/security.css', '/version.css', '/keycloak.css', '/recovery.css', '/app.js', '/vendor/keycloak.js', '/manifest.webmanifest', '/icons/haven.svg', '/icons/haven-192.png', '/icons/haven-512.png'];
 
 self.addEventListener('install', event => {
