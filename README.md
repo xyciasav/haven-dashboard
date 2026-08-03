@@ -1,6 +1,6 @@
 # Haven
 
-Current release: **v0.1.0** · Docker image: `haven-dashboard:0.1.0`
+Current release: **v0.2.0** · Docker image: `haven-dashboard:0.2.0`
 
 A calm, self-hosted home dashboard inspired by Organizr: application launcher, weather, Home Assistant status, media updates, scenes, calendar, and Keycloak authentication.
 
@@ -23,13 +23,10 @@ The repository includes a production Node image and a Portainer-ready `docker-co
 3. Use the default compose path `docker-compose.yml` and deploy the stack.
 4. Open `http://YOUR-SERVER:43127`.
 
-Before enabling authentication, edit the environment values in `compose.yaml`:
+Before deploying, replace the setup token and add sensitive integration values in Portainer:
 
 ```yaml
-KEYCLOAK_ENABLED: "true"
-KEYCLOAK_URL: https://auth.your-domain.com
-KEYCLOAK_REALM: home
-KEYCLOAK_CLIENT_ID: haven
+HAVEN_SETUP_TOKEN: generate-a-long-random-value
 HOME_ASSISTANT_URL: https://home-assistant.your-domain.com
 HOME_ASSISTANT_TOKEN: paste-in-portainer-do-not-commit
 ```
@@ -52,8 +49,9 @@ For Cloudflare, route your Tunnel or reverse proxy to `http://haven:3000` when i
 1. Create a public OpenID Connect client in Keycloak (no client secret) with Standard Flow and PKCE enabled.
 2. Add your Haven URL to **Valid redirect URIs** (for local development: `http://localhost:4173/*`).
 3. Add the origin to **Web origins** (for local development: `http://localhost:4173`).
-4. Edit `config.js`, set the server URL, realm, and client ID, then set `auth.enabled` to `true`.
+4. Open Haven's **Settings**, enter the Keycloak URL, realm, client ID, and the `HAVEN_SETUP_TOKEN` from Portainer.
+5. Enable **Require Keycloak login** and save. Haven reloads and starts the login flow.
 
-For Docker/Portainer, use the equivalent environment variables in `docker-compose.yml`; the container generates the browser-safe configuration at startup.
+Authentication configuration is persisted in the `haven-data` Docker volume and shared by every phone. The setup token is checked by the server and is never saved in the browser.
 
 The browser uses Authorization Code Flow with PKCE. The server independently validates the access token through Keycloak before accessing protected integration routes. Home Assistant credentials remain server-side in the container environment.
