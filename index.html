@@ -4,11 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#f3f4ef" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Haven" />
   <title>Haven — Home dashboard</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/haven.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/haven-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="settings.css" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -45,6 +52,7 @@
         <button class="mobile-menu" id="mobile-menu" aria-label="Open menu"><span data-icon="menu"></span></button>
         <label class="search-box"><span data-icon="search"></span><input id="search" placeholder="Search apps, devices, anything..." /><kbd>⌘ K</kbd></label>
         <div class="top-actions">
+          <button id="install-app" class="install-button hidden">Install app</button>
           <div class="status-pill"><span></span> All systems operational</div>
           <button class="icon-button" aria-label="Notifications"><span data-icon="bell"></span><i></i></button>
           <span class="avatar top-avatar">ML</span>

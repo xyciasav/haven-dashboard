@@ -32,6 +32,15 @@ KEYCLOAK_CLIENT_ID: haven
 
 For a reverse proxy, point the public hostname at Haven's port `43127`. Add that final public URL to the Keycloak client's valid redirect URIs and web origins. The container has a `/health` endpoint, runs with a read-only filesystem, and restarts automatically.
 
+## Install on a phone
+
+Haven is an installable PWA with a home-screen icon, standalone display mode, and an offline dashboard shell. Serve it through an HTTPS reverse proxy—mobile browsers require HTTPS for PWA installation and service workers.
+
+- Android/Chrome: use Haven's **Install app** button or the browser's **Install app** menu item.
+- iPhone/Safari: tap **Share** → **Add to Home Screen**.
+
+Settings are stored separately in each phone's browser. The settings page currently supports display name, weather location, application URLs, and Home Assistant URL/token with a connection test. Home Assistant credentials should move to a server-side secrets store before exposing Haven outside a trusted network.
+
 ## Keycloak setup
 
 1. Create a public OpenID Connect client in Keycloak (no client secret) with Standard Flow and PKCE enabled.
