@@ -1,6 +1,6 @@
 # Haven
 
-Current release: **v0.2.5** · Docker image: `haven-dashboard:0.2.5`
+Current release: **v0.2.6** · Docker image: `haven-dashboard:0.2.6`
 
 A calm, self-hosted home dashboard inspired by Organizr: application launcher, weather, Home Assistant status, media updates, scenes, calendar, and Keycloak authentication.
 
@@ -61,3 +61,5 @@ For a guaranteed authentication lockout recovery, set `HAVEN_AUTH_BYPASS=true` i
 The browser uses Authorization Code Flow with PKCE. The server independently validates the access token through Keycloak before accessing protected integration routes. Home Assistant credentials remain server-side in the container environment.
 
 Haven bundles the official Keycloak JavaScript adapter (v26.2.4) inside its image, so login does not depend on a public CDN being reachable.
+
+For local HTTP access, Haven supplies a cryptographically secure UUID v4 implementation using `crypto.getRandomValues`, because browsers expose that primitive but restrict `crypto.randomUUID` to secure contexts. HTTPS uses the browser's native implementation and PKCE S256.
