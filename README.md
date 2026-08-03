@@ -1,6 +1,6 @@
 # Haven
 
-Current release: **v0.2.0** · Docker image: `haven-dashboard:0.2.0`
+Current release: **v0.2.1** · Docker image: `haven-dashboard:0.2.1`
 
 A calm, self-hosted home dashboard inspired by Organizr: application launcher, weather, Home Assistant status, media updates, scenes, calendar, and Keycloak authentication.
 
@@ -31,7 +31,7 @@ HOME_ASSISTANT_URL: https://home-assistant.your-domain.com
 HOME_ASSISTANT_TOKEN: paste-in-portainer-do-not-commit
 ```
 
-For a reverse proxy, point the public hostname at Haven's port `43127`. Add that final public URL to the Keycloak client's valid redirect URIs and web origins. The container has a `/health` endpoint, runs with a read-only filesystem, and restarts automatically.
+For a reverse proxy, point the public hostname at Haven's port `43127`. Add that final public URL to the Keycloak client's valid redirect URIs and web origins. The container has a `/health` endpoint, runs as a non-root user, and restarts automatically.
 
 ## Install on a phone
 
