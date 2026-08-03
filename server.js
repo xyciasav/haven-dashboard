@@ -3,7 +3,7 @@ import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.2.8';
+const version = process.env.HAVEN_VERSION || '0.2.9';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');
@@ -86,7 +86,7 @@ async function staticFile(req,res,url){
   if(!filePath.startsWith(publicDir))return send(res,403,'Forbidden','text/plain');
   try{if(!(await stat(filePath)).isFile())throw new Error();}
   catch{filePath=join(publicDir,'index.html')}
-  try{const body=await readFile(filePath);const cache=filePath.endsWith('config.js')?'no-store':filePath.endsWith('service-worker.js')?'no-cache':'public, max-age=3600';res.writeHead(200,{...securityHeaders(),'Content-Type':mime[extname(filePath)]||'application/octet-stream','Cache-Control':cache});res.end(body)}
+  try{const body=await readFile(filePath);const cache=filePath.endsWith('config.js')?'no-store':filePath.endsWith('app.js')||filePath.endsWith('service-worker.js')?'no-cache':'public, max-age=3600';res.writeHead(200,{...securityHeaders(),'Content-Type':mime[extname(filePath)]||'application/octet-stream','Cache-Control':cache});res.end(body)}
   catch{return send(res,404,'Not found','text/plain')}
 }
 
