@@ -50,6 +50,9 @@
 .vikunja-map { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 14px; padding: 12px; border: 1px solid #d9e4dc; border-radius: 10px; background: #f5f9f6; font-size: 10px; }
 .vikunja-map div { display: flex; gap: 6px; }
 .vikunja-map button { border: 1px solid var(--line); border-radius: 7px; background: #fff; padding: 6px 9px; cursor: pointer; }
+.vikunja-user-picker { display: flex; gap: 8px; align-items: center; }
+.vikunja-user-picker select { min-width: 0; flex: 1; height: 38px; border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 0 10px; }
+.vikunja-user-picker button { border: 0; border-radius: 8px; background: var(--ink); color: #fff; padding: 10px 12px; cursor: pointer; }
 .notification-item { width: 100%; display: grid; grid-template-columns: 34px minmax(0,1fr); align-items: center; gap: 10px; padding: 11px 4px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
 .notification-item:last-child { border-bottom: 0; }
 .notification-item > span { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 9px; background: #f1f4ef; font-size: 17px; }
