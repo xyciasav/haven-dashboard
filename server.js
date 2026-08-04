@@ -3,7 +3,7 @@ import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.5.10';
+const version = process.env.HAVEN_VERSION || '0.5.11';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');
@@ -52,7 +52,7 @@ async function configureKeycloak(req,res){
   if(!setupAuthorized(req,res))return;
   try{const body=await readJson(req),url=cleanUrl(body.url),realm=String(body.realm||'').trim(),clientId=String(body.clientId||'').trim();if(body.enabled&&(!url||!realm||!clientId))return send(res,400,{error:'URL, realm, and client ID are required'});runtimeAuth={enabled:Boolean(body.enabled),url,realm,clientId:clientId||'haven'};await persistSettings();await writeClientConfig();return send(res,200,{ok:true})}catch(error){return send(res,400,{error:error.message||'Invalid settings'})}
 }
-async function applicationsApi(req,res){if(req.method==='GET'){if(!await requireAuth(req,res))return;return send(res,200,{applications})}if(req.method==='PUT'){if(!await integrationOwnerAuthorized(req,res))return;try{const body=await readJson(req);applications=normalizeApplications(body.applications);await persistSettings();return send(res,200,{ok:true,applications})}catch(error){return send(res,400,{error:error.message||'Invalid applications'})}}return send(res,405,{error:'Method not allowed'})}
+async function applicationsApi(req,res){if(!await requireAuth(req,res))return;if(req.method==='GET')return send(res,200,{applications});if(req.method==='PUT'){try{const body=await readJson(req);applications=normalizeApplications(body.applications);await persistSettings();return send(res,200,{ok:true,applications})}catch(error){return send(res,400,{error:error.message||'Invalid applications'})}}return send(res,405,{error:'Method not allowed'})}
 function mergeSecretService(input,previous,secretKey){const url=cleanUrl(input?.url);if(!url)return {url:'',[secretKey]:''};return {url,[secretKey]:String(input?.[secretKey]||'').trim()||previous?.[secretKey]||''}}
 function normalizeQuickActions(actions){return (Array.isArray(actions)?actions:[]).slice(0,12).map((action,index)=>({id:String(action.id||`action-${index}`),name:String(action.name||'Action').trim().slice(0,60),entityId:String(action.entityId||'').trim(),service:['toggle','turn_on','turn_off','lock','unlock','open_cover','close_cover'].includes(action.service)?action.service:'toggle'})).filter(action=>/^[a-z_]+\.[a-zA-Z0-9_]+$/.test(action.entityId))}
 async function configureIntegrations(req,res){
