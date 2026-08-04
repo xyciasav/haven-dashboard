@@ -1,9 +1,10 @@
 import { createServer } from 'node:http';
 import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
+import { createPublicKey, verify as verifySignature } from 'node:crypto';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.5.19';
+const version = process.env.HAVEN_VERSION || '0.5.20';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');
@@ -40,11 +41,13 @@ async function readJson(req){let body='';for await(const chunk of req){body+=chu
 function setupAuthorized(req,res){if(!setupToken){send(res,503,{error:'HAVEN_SETUP_TOKEN is not configured in Portainer'});return false}if(req.headers['x-haven-setup-token']!==setupToken){send(res,403,{error:'Invalid setup token'});return false}return true}
 function cleanUrl(value){const text=String(value||'').trim().replace(/\/$/,'');if(!text)return '';const parsed=new URL(text);if(!['http:','https:'].includes(parsed.protocol))throw new Error('Only http and https URLs are allowed');return text}
 
+const jwksCache=new Map();
+const decodeJwtPart=value=>JSON.parse(Buffer.from(value,'base64url').toString('utf8'));
+async function realmKeys(issuer,refresh=false){const cached=jwksCache.get(issuer);if(!refresh&&cached&&cached.expires>Date.now())return cached.keys;const response=await fetch(`${issuer}/protocol/openid-connect/certs`,{signal:AbortSignal.timeout(8000)});if(!response.ok)throw new Error(`Keycloak certificates returned ${response.status}`);const keys=(await response.json()).keys||[];jwksCache.set(issuer,{keys,expires:Date.now()+300000});return keys}
 async function authenticatedIdentity(req){
   if(!runtimeAuth.enabled||!runtimeAuth.url||!runtimeAuth.realm)return false;
-  const authorization=req.headers.authorization;
-  if(!authorization?.startsWith('Bearer '))return false;
-  try{const response=await fetch(`${runtimeAuth.url}/realms/${encodeURIComponent(runtimeAuth.realm)}/protocol/openid-connect/userinfo`,{headers:{Authorization:authorization},signal:AbortSignal.timeout(5000)});return response.ok?await response.json():false}catch{return false}
+  const authorization=req.headers.authorization;if(!authorization?.startsWith('Bearer '))return false;
+  try{const token=authorization.slice(7),parts=token.split('.');if(parts.length!==3)return false;const header=decodeJwtPart(parts[0]),claims=decodeJwtPart(parts[1]),issuer=`${runtimeAuth.url}/realms/${runtimeAuth.realm}`;if(header.alg!=='RS256'||!header.kid||claims.iss!==issuer||!claims.sub||Number(claims.exp||0)*1000<=Date.now())return false;const audiences=Array.isArray(claims.aud)?claims.aud:[claims.aud].filter(Boolean);if(claims.azp!==runtimeAuth.clientId&&!audiences.includes(runtimeAuth.clientId))return false;let keys=await realmKeys(issuer),jwk=keys.find(key=>key.kid===header.kid&&key.kty==='RSA');if(!jwk){keys=await realmKeys(issuer,true);jwk=keys.find(key=>key.kid===header.kid&&key.kty==='RSA')}if(!jwk)return false;const valid=verifySignature('RSA-SHA256',Buffer.from(`${parts[0]}.${parts[1]}`),createPublicKey({key:jwk,format:'jwk'}),Buffer.from(parts[2],'base64url'));return valid?claims:false}catch(error){console.warn('Keycloak token verification failed',error.message);return false}
 }
 async function authenticated(req){return Boolean(await authenticatedIdentity(req))}
 async function requireAuth(req,res){if(await authenticated(req))return true;send(res,401,{error:'Keycloak authentication required'});return false}
