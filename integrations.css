@@ -10,6 +10,23 @@
 .integration-save > div { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .integration-save small { color: var(--muted); font-size: 9px; line-height: 1.5; }
 .integration-empty { color: var(--muted); font-size: 11px; padding: 18px; border: 1px dashed var(--line); border-radius: 10px; grid-column: 1 / -1; }
+.quick-action-manager { margin: 16px 0; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fafbf9; }
+.quick-action-manager h3 { margin: 0 0 12px; font: 600 13px 'Manrope'; }
+.quick-action-add { display: grid; grid-template-columns: 1fr 1.2fr 1fr auto; gap: 8px; margin-top: 10px; }
+.quick-action-add input, .quick-action-add select { min-width: 0; }
+.quick-action-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.quick-action-row span { display: grid; gap: 2px; }
+.quick-action-row small { color: var(--muted); font-size: 9px; }
+.quick-action-row button { border: 0; background: transparent; color: #a04f49; cursor: pointer; font-size: 10px; }
+.entity-group { margin-bottom: 28px; }
+.entity-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.entity-card { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 14px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+.entity-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 10px; color: var(--navy); background: #edf1ed; }
+.entity-icon svg { width: 20px; height: 20px; }
+.entity-card > div { display: grid; gap: 3px; min-width: 0; }
+.entity-card strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 12px 'Manrope'; }
+.entity-card small { color: var(--muted); font-size: 9px; }
+.entity-card button { white-space: nowrap; }
 .app-empty { grid-column: 1 / -1; }
 .plex-poster { background-color: #26364b; background-position: center; background-size: cover; }
 .calendar-feed { display: grid; gap: 10px; max-width: 760px; }
@@ -25,6 +42,9 @@
 .mini-snow::before { content: '❄'; }
 @media (max-width: 760px) {
   .integration-config, .arr-grid { grid-template-columns: 1fr; }
+  .quick-action-add, .entity-grid { grid-template-columns: 1fr; }
+  .entity-card { grid-template-columns: 42px minmax(0, 1fr); }
+  .entity-card button { grid-column: 1 / -1; }
   .integration-wide, .integration-save { grid-column: auto; }
   .integration-save > div { align-items: stretch; flex-direction: column; }
 }

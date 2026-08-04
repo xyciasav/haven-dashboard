@@ -38,7 +38,7 @@
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.4.1</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.0</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
@@ -85,12 +85,12 @@
           </section>
 
           <section class="card home-status-card">
-            <div class="card-heading"><div><p class="eyebrow">HOME STATUS</p><h2>Everything's good</h2></div><div class="status-check">✓</div></div>
+            <div class="card-heading"><div><p class="eyebrow">HOME STATUS</p><h2 id="home-status-title">Connecting to Home Assistant…</h2></div><div class="status-check" id="home-status-check">…</div></div>
             <div class="home-stats">
-              <div><span class="stat-icon coral" data-icon="thermometer"></span><p>Indoor</p><strong>71°</strong></div>
-              <div><span class="stat-icon blue" data-icon="droplet"></span><p>Outside humidity</p><strong id="weather-humidity">—</strong></div>
-              <div><span class="stat-icon violet" data-icon="lightbulb"></span><p>Lights on</p><strong>4</strong></div>
-              <div><span class="stat-icon green" data-icon="lock"></span><p>Doors</p><strong>Locked</strong></div>
+              <div><span class="stat-icon coral" data-icon="thermometer"></span><p>Temperature</p><strong id="ha-temperature">—</strong></div>
+              <div><span class="stat-icon blue" data-icon="droplet"></span><p>Humidity</p><strong id="ha-humidity">—</strong></div>
+              <div><span class="stat-icon violet" data-icon="lightbulb"></span><p>Lights on</p><strong id="ha-lights">—</strong></div>
+              <div><span class="stat-icon green" data-icon="lock"></span><p>Locks</p><strong id="ha-locks">—</strong></div>
             </div>
           </section>
         </div>
@@ -102,22 +102,18 @@
 
         <div class="lower-grid">
           <section class="section-block movie-section">
-            <div class="section-heading"><div><h2>Recently added</h2><p>Fresh from your media library</p></div><button class="text-button">Open library <span>→</span></button></div>
+            <div class="section-heading"><div><h2>Recently added</h2><p>Fresh from your media library</p></div><button class="text-button" id="plex-library-button">Open library <span>→</span></button></div>
             <div class="movie-list" id="movie-list"></div>
           </section>
           <section class="card scenes-card">
             <div class="section-heading"><div><p class="eyebrow">QUICK SCENES</p><h2>Set the mood</h2></div><span data-icon="sparkles"></span></div>
-            <div class="scene-list">
-              <button data-scene="Movie night"><span class="scene-icon purple" data-icon="film"></span><span><strong>Movie night</strong><small>Living room · 4 devices</small></span><span class="play">▶</span></button>
-              <button data-scene="Good night"><span class="scene-icon navy" data-icon="moon"></span><span><strong>Good night</strong><small>All rooms · 12 devices</small></span><span class="play">▶</span></button>
-              <button data-scene="Away"><span class="scene-icon amber" data-icon="shield"></span><span><strong>Away</strong><small>Security · 6 devices</small></span><span class="play">▶</span></button>
-            </div>
+            <div class="scene-list" id="quick-actions"><div class="integration-empty">Add quick actions in Integrations.</div></div>
           </section>
         </div>
       </section>
 
       <section id="page-apps" class="page"><div class="page-title"><p class="eyebrow">LAUNCHPAD</p><h1>Applications</h1><p>Everything you run, all in one place.</p></div><div class="app-grid all-apps" id="all-apps"></div></section>
-      <section id="page-home-control" class="page"><div class="page-title"><p class="eyebrow">HOME ASSISTANT</p><h1>Your home</h1><p>Rooms and devices will appear here when connected.</p></div><div class="empty-state"><span data-icon="home"></span><h2>Connect Home Assistant</h2><p>Add your server URL and a long-lived access token to control devices from Haven.</p><button class="primary-button" data-open-settings>Configure integration</button></div></section>
+      <section id="page-home-control" class="page"><div class="page-title"><p class="eyebrow">HOME ASSISTANT</p><h1>Your home</h1><p>Live entities and controls from Home Assistant.</p></div><div id="home-control-content"><div class="empty-state"><span data-icon="home"></span><h2>Loading Home Assistant</h2><p>Fetching your devices and scenes.</p></div></div></section>
       <section id="page-calendar" class="page"><div class="page-title"><p class="eyebrow">UP NEXT</p><h1>Calendar</h1><p>Your configured calendar feed.</p></div><div id="calendar-content" class="calendar-feed"><div class="empty-state"><span data-icon="calendar"></span><h2>Connect a calendar</h2><p>Add an ICS subscription URL in Integrations.</p><button class="primary-button" data-page-target="integrations">Configure calendar</button></div></div></section>
       <section id="page-integrations" class="page"><div class="page-title"><p class="eyebrow">CONNECTIONS</p><h1>Integrations</h1><p>Connect Plex, calendars, and your automation services.</p></div><div id="integrations-content"></div></section>
       <section id="page-settings" class="page"><div class="page-title"><p class="eyebrow">CONFIGURATION</p><h1>Settings</h1><p>Personalize Haven and manage authentication.</p></div><div id="settings-content"></div></section>
@@ -125,6 +121,6 @@
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
-  <script type="module" src="/app.js?v=0.4.1"></script>
+  <script type="module" src="/app.js?v=0.5.0"></script>
 </body>
 </html>
