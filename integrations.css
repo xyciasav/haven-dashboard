@@ -21,14 +21,27 @@
 .quick-action-row small { color: var(--muted); font-size: 9px; }
 .quick-action-row button { border: 0; background: transparent; color: #a04f49; cursor: pointer; font-size: 10px; }
 .entity-group { margin-bottom: 28px; }
-.entity-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.entity-card { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 14px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
-.entity-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 10px; color: var(--navy); background: #edf1ed; }
-.entity-icon svg { width: 20px; height: 20px; }
+.entity-toolbar { display: flex; gap: 10px; margin: -15px 0 24px; }
+.entity-toolbar input { flex: 1; }
+.entity-toolbar select { width: 180px; }
+.entity-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+.entity-card { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 9px; padding: 9px 10px; min-height: 58px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 4px 14px rgba(34,49,43,.04); overflow: hidden; }
+.entity-icon { width: 34px !important; height: 34px !important; display: grid; place-items: center; border-radius: 9px; color: var(--navy); background: #edf1ed; overflow: hidden; }
+.entity-card .entity-icon svg, #home-control-content .entity-icon svg { display: block !important; width: 17px !important; height: 17px !important; max-width: 17px !important; max-height: 17px !important; }
 .entity-card > div { display: grid; gap: 3px; min-width: 0; }
 .entity-card strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 12px 'Manrope'; }
 .entity-card small { color: var(--muted); font-size: 9px; }
 .entity-card button { white-space: nowrap; }
+#favorite-apps { grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); }
+#favorite-apps .app-tile { min-height: 142px; padding: 20px 12px 16px; flex-direction: column; justify-content: center; text-align: center; gap: 11px; }
+#favorite-apps .app-logo { width: 68px; height: 68px; border-radius: 16px; font-size: 25px; }
+#favorite-apps .app-logo img { padding: 8px; }
+#favorite-apps .app-meta small { display: none; }
+#favorite-apps .app-meta strong { font-size: 13px; margin: 0; }
+.task-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.task-card { display: grid; gap: 6px; padding: 14px; background: #fff; border: 1px solid var(--line); border-radius: 11px; }
+.task-card strong { font: 600 12px 'Manrope'; }
+.task-card small { color: var(--muted); font-size: 9px; }
 .app-empty { grid-column: 1 / -1; }
 .plex-poster { background-color: #26364b; background-position: center; background-size: cover; }
 .calendar-feed { display: grid; gap: 10px; max-width: 760px; }
@@ -44,7 +57,9 @@
 .mini-snow::before { content: '❄'; }
 @media (max-width: 760px) {
   .integration-config, .arr-grid { grid-template-columns: 1fr; }
-  .quick-action-add, .entity-grid { grid-template-columns: 1fr; }
+  .quick-action-add, .entity-grid, .task-grid { grid-template-columns: 1fr; }
+  .entity-toolbar { flex-direction: column; }
+  .entity-toolbar select { width: 100%; }
   .entity-card { grid-template-columns: 42px minmax(0, 1fr); }
   .entity-card button { grid-column: 1 / -1; }
   .integration-wide, .integration-save { grid-column: auto; }

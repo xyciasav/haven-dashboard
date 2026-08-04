@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="keycloak.css" />
   <link rel="stylesheet" href="recovery.css" />
   <link rel="stylesheet" href="app-manager.css" />
-  <link rel="stylesheet" href="integrations.css" />
+  <link rel="stylesheet" href="integrations.css?v=0.5.2" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -38,7 +38,7 @@
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.1</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.2</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
@@ -110,10 +110,11 @@
             <div class="scene-list" id="quick-actions"><div class="integration-empty">Add quick actions in Integrations.</div></div>
           </section>
         </div>
+        <section class="section-block hidden" id="vikunja-section"><div class="section-heading"><div><h2>Assigned to you</h2><p>Open tasks from Vikunja</p></div><button class="text-button" id="vikunja-open-button">Open Vikunja <span>→</span></button></div><div class="task-grid" id="vikunja-tasks"></div></section>
       </section>
 
       <section id="page-apps" class="page"><div class="page-title"><p class="eyebrow">LAUNCHPAD</p><h1>Applications</h1><p>Everything you run, all in one place.</p></div><div class="app-grid all-apps" id="all-apps"></div></section>
-      <section id="page-home-control" class="page"><div class="page-title"><p class="eyebrow">HOME ASSISTANT</p><h1>Your home</h1><p>Live entities and controls from Home Assistant.</p></div><div id="home-control-content"><div class="empty-state"><span data-icon="home"></span><h2>Loading Home Assistant</h2><p>Fetching your devices and scenes.</p></div></div></section>
+      <section id="page-home-control" class="page"><div class="page-title"><p class="eyebrow">HOME ASSISTANT</p><h1>Your home</h1><p>Live entities and controls from Home Assistant.</p></div><div class="entity-toolbar"><input id="entity-search" type="search" placeholder="Search lights, scenes, switches…"><select id="entity-domain"><option value="">All types</option><option value="light">Lights</option><option value="switch">Switches</option><option value="lock">Locks</option><option value="cover">Covers</option><option value="scene">Scenes</option><option value="script">Scripts</option></select></div><div id="home-control-content"><div class="empty-state"><span data-icon="home"></span><h2>Loading Home Assistant</h2><p>Fetching your devices and scenes.</p></div></div></section>
       <section id="page-calendar" class="page"><div class="page-title"><p class="eyebrow">UP NEXT</p><h1>Calendar</h1><p>Your configured calendar feed.</p></div><div id="calendar-content" class="calendar-feed"><div class="empty-state"><span data-icon="calendar"></span><h2>Connect a calendar</h2><p>Add an ICS subscription URL in Integrations.</p><button class="primary-button" data-page-target="integrations">Configure calendar</button></div></div></section>
       <section id="page-integrations" class="page"><div class="page-title"><p class="eyebrow">CONNECTIONS</p><h1>Integrations</h1><p>Connect Plex, calendars, and your automation services.</p></div><div id="integrations-content"></div></section>
       <section id="page-settings" class="page"><div class="page-title"><p class="eyebrow">CONFIGURATION</p><h1>Settings</h1><p>Personalize Haven and manage authentication.</p></div><div id="settings-content"></div></section>
@@ -121,6 +122,6 @@
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
-  <script type="module" src="/app.js?v=0.5.1"></script>
+  <script type="module" src="/app.js?v=0.5.2"></script>
 </body>
 </html>
