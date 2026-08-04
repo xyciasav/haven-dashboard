@@ -49,6 +49,24 @@
 .app-empty { grid-column: 1 / -1; }
 .plex-poster { background-color: #26364b; background-position: center; background-size: cover; }
 .calendar-feed { display: grid; gap: 10px; max-width: 760px; }
+#calendar-content { max-width: 1100px; gap: 26px; }
+.month-calendar { overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+.calendar-toolbar { display: flex; justify-content: space-between; align-items: center; padding: 17px 18px; border-bottom: 1px solid var(--line); }
+.calendar-toolbar h2 { margin: 0; font: 600 17px 'Manrope'; }
+.calendar-toolbar > div { display: flex; gap: 6px; }
+.calendar-toolbar .outline-button { padding: 7px 10px; }
+.month-weekdays, .month-grid { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); }
+.month-weekdays { border-bottom: 1px solid var(--line); background: #fafbf9; }
+.month-weekdays span { padding: 8px; color: var(--muted); font-size: 9px; font-weight: 700; text-align: center; text-transform: uppercase; }
+.month-day { min-width: 0; min-height: 105px; padding: 8px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.month-day:nth-child(7n) { border-right: 0; }
+.month-day.outside { background: #fafbf9; color: #a7afab; }
+.month-number { display: grid; place-items: center; width: 24px; height: 24px; margin-bottom: 4px; font-size: 10px; font-weight: 700; }
+.month-day.today .month-number { border-radius: 50%; background: var(--navy); color: #fff; }
+.month-events { display: grid; gap: 3px; }
+.month-events span { display: block; overflow: hidden; padding: 4px 5px; border-radius: 5px; background: #edf1ed; color: #43534c; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+.month-events small { color: var(--muted); font-size: 8px; }
+.calendar-agenda { display: grid; gap: 10px; }
 .calendar-event-card { display: flex; align-items: center; gap: 17px; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 13px; box-shadow: var(--shadow); }
 .calendar-date { width: 50px; height: 54px; display: grid; place-content: center; text-align: center; border-radius: 9px; background: var(--navy); color: #fff; flex: 0 0 auto; }
 .calendar-date strong { font: 600 20px 'Manrope'; line-height: 1; }
@@ -64,6 +82,11 @@
   .quick-action-add, .entity-grid, .task-grid { grid-template-columns: 1fr; }
   .entity-toolbar { flex-direction: column; }
   .entity-toolbar select { width: 100%; }
+  .month-day { min-height: 72px; padding: 4px; }
+  .month-events span { width: 7px; height: 7px; padding: 0; border-radius: 50%; color: transparent; }
+  .month-events small { display: none; }
+  .calendar-toolbar { padding: 13px; }
+  .calendar-toolbar h2 { font-size: 14px; }
   .entity-card { grid-template-columns: 42px minmax(0, 1fr); }
   .entity-card button { grid-column: 1 / -1; }
   .integration-wide, .integration-save { grid-column: auto; }
