@@ -14,14 +14,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=0.5.26" />
-  <link rel="stylesheet" href="settings.css?v=0.5.26" />
-  <link rel="stylesheet" href="security.css?v=0.5.26" />
-  <link rel="stylesheet" href="version.css?v=0.5.26" />
-  <link rel="stylesheet" href="keycloak.css?v=0.5.26" />
-  <link rel="stylesheet" href="recovery.css?v=0.5.26" />
-  <link rel="stylesheet" href="app-manager.css?v=0.5.26" />
-  <link rel="stylesheet" href="integrations.css?v=0.5.26" />
+  <link rel="stylesheet" href="styles.css?v=0.6.0" />
+  <link rel="stylesheet" href="settings.css?v=0.6.0" />
+  <link rel="stylesheet" href="security.css?v=0.6.0" />
+  <link rel="stylesheet" href="version.css?v=0.6.0" />
+  <link rel="stylesheet" href="keycloak.css?v=0.6.0" />
+  <link rel="stylesheet" href="recovery.css?v=0.6.0" />
+  <link rel="stylesheet" href="app-manager.css?v=0.6.0" />
+  <link rel="stylesheet" href="integrations.css?v=0.6.0" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -38,7 +38,7 @@
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.26</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.6.0</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
@@ -108,6 +108,7 @@
             <div class="scene-list" id="quick-actions"><div class="integration-empty">Add quick actions in Integrations.</div></div>
           </section>
           <section class="section-block dashboard-widget widget-wide hidden" data-widget="vikunja" draggable="false" id="vikunja-section"><div class="section-heading"><div><h2>Assigned to you</h2><p>Upcoming tasks from Vikunja</p></div><button class="text-button" id="vikunja-open-button">Open Vikunja <span>→</span></button></div><div id="vikunja-mapping"></div><div class="task-grid" id="vikunja-tasks"></div></section>
+          <section class="section-block dashboard-widget widget-wide hidden" data-widget="immich" draggable="false" id="immich-section"><div class="section-heading"><div><h2>Your photos</h2><p>A personal selection from Immich</p></div><button class="text-button" id="immich-open-button">Open Immich <span>→</span></button></div><div class="immich-grid" id="immich-photos"></div></section>
           <section class="section-block dashboard-widget widget-wide hidden" data-widget="chores" draggable="false" id="chores-section"><div class="section-heading"><div><h2>Needs your attention</h2><p>Pending chores and reward requests</p></div><button class="text-button" id="chores-open-button">Open chore app <span>→</span></button></div><div class="task-grid" id="chores-items"></div></section>
         </div>
         <aside class="widget-editor hidden" id="widget-editor"><div class="notifications-heading"><div><p class="eyebrow">DASHBOARD LAYOUT</p><h2>Customize your dashboard</h2></div><button type="button" id="widget-editor-close">×</button></div><p>Drag visible widgets on the dashboard to reorder them, or use the controls below.</p><div id="widget-editor-list"></div><button class="primary-button" id="save-widget-layout" type="button">Save layout</button></aside>
@@ -129,6 +130,6 @@
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
-  <script type="module" src="/app.js?v=0.5.26"></script>
+  <script type="module" src="/app.js?v=0.6.0"></script>
 </body>
 </html>
