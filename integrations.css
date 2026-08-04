@@ -9,6 +9,8 @@
 .integration-save { grid-column: 1 / -1; }
 .integration-save > div { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .integration-save small { color: var(--muted); font-size: 9px; line-height: 1.5; }
+.integration-save-result { grid-column: 1 / -1; padding: 11px 13px; border-radius: 9px; background: #f0f1ed; color: var(--muted); font-size: 10px; line-height: 1.5; }
+.integration-save-result.success { background: #dff0e6; color: #347c61; font-weight: 600; }
 .integration-empty { color: var(--muted); font-size: 11px; padding: 18px; border: 1px dashed var(--line); border-radius: 10px; grid-column: 1 / -1; }
 .quick-action-manager { margin: 16px 0; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fafbf9; }
 .quick-action-manager h3 { margin: 0 0 12px; font: 600 13px 'Manrope'; }
