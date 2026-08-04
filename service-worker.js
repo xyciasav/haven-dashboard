@@ -1,5 +1,5 @@
-const CACHE = 'haven-shell-v0.5.11';
-const SHELL = ['/', '/index.html', '/styles.css', '/settings.css', '/security.css', '/version.css', '/keycloak.css', '/recovery.css', '/app-manager.css?v=0.5.11', '/integrations.css?v=0.5.11', '/app.js?v=0.5.11', '/vendor/keycloak.js', '/manifest.webmanifest', '/icons/haven.svg', '/icons/haven-192.png', '/icons/haven-512.png'];
+const CACHE = 'haven-shell-v0.5.12';
+const SHELL = ['/', '/index.html', '/styles.css?v=0.5.12', '/settings.css?v=0.5.12', '/security.css?v=0.5.12', '/version.css?v=0.5.12', '/keycloak.css?v=0.5.12', '/recovery.css?v=0.5.12', '/app-manager.css?v=0.5.12', '/integrations.css?v=0.5.12', '/app.js?v=0.5.12', '/vendor/keycloak.js', '/manifest.webmanifest', '/icons/haven.svg', '/icons/haven-192.png', '/icons/haven-512.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -16,7 +16,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(fetch(event.request).catch(() => caches.match('/index.html')));
     return;
   }
-  if (pathname === '/app.js') {
+  if (pathname === '/app.js' || pathname.endsWith('.css')) {
     event.respondWith(fetch(event.request).then(response => {
       const copy = response.clone();
       caches.open(CACHE).then(cache => cache.put(event.request, copy));
