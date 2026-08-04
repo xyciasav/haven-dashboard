@@ -1,5 +1,9 @@
 .integration-config { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .integration-wide { grid-column: 1 / -1; }
+.integration-wide, .arr-config { position: relative; }
+.integration-wide > .settings-title { padding-right: 78px; }
+.integration-wide > [data-test-integration], .arr-config > [data-test-integration] { position: absolute; top: 16px; right: 16px; padding: 7px 10px; }
+.arr-config > div:first-child { padding-right: 70px; }
 .integration-state { margin-left: auto; padding: 6px 9px; border-radius: 20px; background: #f0f1ed; color: var(--muted); font-size: 9px; font-weight: 700; }
 .integration-state.connected { background: #dff0e6; color: #347c61; }
 .arr-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }

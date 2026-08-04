@@ -1,10 +1,10 @@
 services:
   haven:
-    image: haven-dashboard:0.5.18
+    image: haven-dashboard:0.5.19
     build:
       context: .
       args:
-        HAVEN_VERSION: 0.5.18
+        HAVEN_VERSION: 0.5.19
     container_name: haven
     restart: unless-stopped
     ports:
