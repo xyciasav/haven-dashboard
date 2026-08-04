@@ -1,8 +1,10 @@
 .integration-config { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .integration-wide { grid-column: 1 / -1; }
 .integration-wide, .arr-config { position: relative; }
-.integration-wide > .settings-title { padding-right: 78px; }
+.integration-wide > .settings-title { padding-right: 185px; min-height: 38px; }
 .integration-wide > [data-test-integration], .arr-config > [data-test-integration] { position: absolute; top: 16px; right: 16px; padding: 7px 10px; }
+.integration-wide > .settings-title > div { min-width: 0; }
+.integration-wide > .settings-title .integration-state { flex: 0 0 auto; }
 .arr-config > div:first-child { padding-right: 70px; }
 .integration-state { margin-left: auto; padding: 6px 9px; border-radius: 20px; background: #f0f1ed; color: var(--muted); font-size: 9px; font-weight: 700; }
 .integration-state.connected { background: #dff0e6; color: #347c61; }
@@ -149,5 +151,7 @@
   .entity-card { grid-template-columns: 42px minmax(0, 1fr); }
   .entity-card button { grid-column: 1 / -1; }
   .integration-wide, .integration-save { grid-column: auto; }
+  .integration-wide > .settings-title { padding-right: 0; }
+  .integration-wide > [data-test-integration] { position: static; width: 100%; margin-top: 12px; }
   .integration-save > div { align-items: stretch; flex-direction: column; }
 }

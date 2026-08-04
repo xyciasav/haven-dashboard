@@ -1,10 +1,10 @@
 import { createServer } from 'node:http';
-import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, stat, writeFile, mkdir, rename } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { createPublicKey, verify as verifySignature } from 'node:crypto';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.5.23';
+const version = process.env.HAVEN_VERSION || '0.5.24';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');
@@ -27,7 +27,8 @@ for(const name of Object.keys(emptyIntegrations.arrs))integrations.arrs[name]={.
 const mime = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.webmanifest':'application/manifest+json','.svg':'image/svg+xml','.png':'image/png'};
 const clientConfig = {user:{name:process.env.HAVEN_USER_NAME||'Mike'},auth:{}};
 
-async function persistSettings(){storedSettings={...storedSettings,auth:runtimeAuth,integrations,applications,dashboard,userPreferences,integrationOwnerSub};await writeFile(settingsFile,JSON.stringify(storedSettings,null,2),'utf8')}
+let persistQueue=Promise.resolve();
+async function persistSettings(){storedSettings={...storedSettings,auth:runtimeAuth,integrations,applications,dashboard,userPreferences,integrationOwnerSub};const payload=JSON.stringify(storedSettings,null,2),temporaryFile=`${settingsFile}.tmp`;persistQueue=persistQueue.catch(()=>{}).then(async()=>{await writeFile(temporaryFile,payload,'utf8');await rename(temporaryFile,settingsFile)});return persistQueue}
 async function writeClientConfig(){clientConfig.auth={...runtimeAuth,enabled:runtimeAuth.enabled&&!authBypass,adapterUrl:'/vendor/keycloak.js'};await writeFile(join(publicDir,'config.js'),`export default ${JSON.stringify(clientConfig)};\n`,'utf8')}
 await writeClientConfig();
 
@@ -121,7 +122,22 @@ async function vikunjaUsers(req,res){const identity=await authenticatedIdentity(
 async function vikunjaTasks(req,res){const identity=await authenticatedIdentity(req);if(!identity)return send(res,401,{error:'Keycloak authentication required'});const config=integrations.vikunja;if(!config.url||!config.token)return send(res,503,{error:'Vikunja is not configured'});try{const [allTasks,tokenOwner]=await Promise.all([vikunjaOpenTasks(),vikunjaTokenOwner()]),people=vikunjaPeople(allTasks),prefs=userPreferences[identity.sub]||{},suggested=prefs.vikunjaRejected?null:suggestedVikunjaUser(identity,people),userId=prefs.vikunjaUserId??suggested?.id??tokenOwner.id,tasks=allTasks.filter(task=>(task.assignees||[]).some(assignee=>String(assignee.id)===String(userId))).slice(0,8).map(task=>({id:task.id,title:task.title||'Untitled task',dueDate:task.due_date||'',priority:Number(task.priority||0),projectId:task.project_id||0}));return send(res,200,{url:config.url,tasks,mapped:Boolean(prefs.vikunjaUserId),usingTokenOwner:userId===tokenOwner.id,suggested:!prefs.vikunjaUserId?suggested:null})}catch(error){return send(res,502,{error:error.message||'Vikunja could not be reached'})}}
 const pendingList=(payload,key)=>Array.isArray(payload)?payload:Array.isArray(payload?.[key])?payload[key]:Array.isArray(payload?.[`pending_${key}`])?payload[`pending_${key}`]:Array.isArray(payload?.pending)?payload.pending:Array.isArray(payload?.items)?payload.items:Array.isArray(payload?.data)?payload.data:[];
 async function choreRequests(req,res){if(!await requireAuth(req,res))return;const config=integrations.chores;if(!config.url)return send(res,503,{error:'Chore app is not configured'});try{const [choresResponse,rewardsResponse]=await Promise.all([fetch(`${config.url}/api/chores/pending`,{signal:AbortSignal.timeout(8000)}),fetch(`${config.url}/api/rewards/pending`,{signal:AbortSignal.timeout(8000)})]);if(!choresResponse.ok||!rewardsResponse.ok)return send(res,502,{error:`Chore app returned ${!choresResponse.ok?choresResponse.status:rewardsResponse.status}`});const chores=pendingList(await choresResponse.json(),'chores').map(item=>({kind:'Chore',title:item.chore_name||item.name||item.title||item.chore?.name||'Pending chore',person:item.child_name||item.child?.name||item.user_name||'',detail:item.notes||item.description||''})),rewards=pendingList(await rewardsResponse.json(),'rewards').map(item=>({kind:'Reward',title:item.reward_name||item.name||item.title||item.reward?.name||'Reward request',person:item.child_name||item.child?.name||item.user_name||'',detail:item.notes||item.description||''}));return send(res,200,{url:config.url,items:[...chores,...rewards].slice(0,10)})}catch(error){return send(res,502,{error:error.message||'Chore app could not be reached'})}}
-async function appIcon(req,res,url){if(!await requireAuth(req,res))return;try{const target=cleanUrl(url.searchParams.get('url')),base=new URL(target),page=await fetch(base,{headers:{Accept:'text/html'},redirect:'follow',signal:AbortSignal.timeout(6000)}),html=(page.headers.get('content-type')||'').includes('text/html')?await page.text():'';let iconHref='';for(const match of html.matchAll(/<link\b[^>]*>/gi)){const tag=match[0];if(!/rel=["'][^"']*icon/i.test(tag))continue;iconHref=tag.match(/href=["']([^"']+)/i)?.[1]||'';if(iconHref)break}const candidates=[iconHref?new URL(iconHref,page.url||base).href:'',new URL('/favicon.ico',page.url||base).href].filter(Boolean);for(const candidate of candidates){const icon=await fetch(candidate,{redirect:'follow',signal:AbortSignal.timeout(6000)});if(!icon.ok)continue;const type=icon.headers.get('content-type')||'';if(!type.startsWith('image/')&&!candidate.endsWith('.ico'))continue;const body=Buffer.from(await icon.arrayBuffer());if(body.length>2097152)continue;res.writeHead(200,{...securityHeaders(),'Content-Type':type||'image/x-icon','Cache-Control':'private, max-age=86400'});return res.end(body)}return send(res,404,{error:'No application icon found'})}catch{return send(res,404,{error:'Application icon unavailable'})}}
+async function appIcon(req,res,url){
+  if(!await requireAuth(req,res))return;
+  try{
+    const target=cleanUrl(url.searchParams.get('url')),base=new URL(target),page=await fetch(base,{headers:{Accept:'text/html'},redirect:'follow',signal:AbortSignal.timeout(6000)}),pageUrl=page.url||base.href,html=(page.headers.get('content-type')||'').includes('text/html')?await page.text():'';
+    const discovered=[];
+    for(const match of html.matchAll(/<link\b[^>]*>/gi)){
+      const tag=match[0],rel=tag.match(/rel=["']([^"']+)/i)?.[1]||'',href=tag.match(/href=["']([^"']+)/i)?.[1]||'';
+      if(href&&/(?:^|\s)(?:icon|shortcut icon|apple-touch-icon)(?:\s|$)/i.test(rel))discovered.push(new URL(href,pageUrl).href);
+    }
+    const candidates=[...discovered,new URL('favicon.ico',pageUrl).href,new URL('/favicon.ico',pageUrl).href,new URL('/favicon.png',pageUrl).href,new URL('/favicon.svg',pageUrl).href,new URL('/apple-touch-icon.png',pageUrl).href];
+    for(const candidate of [...new Set(candidates)]){
+      try{const icon=await fetch(candidate,{headers:{Accept:'image/avif,image/webp,image/svg+xml,image/*,*/*;q=0.8'},redirect:'follow',signal:AbortSignal.timeout(6000)});if(!icon.ok)continue;const type=icon.headers.get('content-type')||'';if(!type.startsWith('image/')&&!/\.(?:ico|png|svg)(?:$|\?)/i.test(candidate))continue;const body=Buffer.from(await icon.arrayBuffer());if(!body.length||body.length>2097152)continue;res.writeHead(200,{...securityHeaders(),'Content-Type':type||'image/x-icon','Cache-Control':'private, max-age=86400'});return res.end(body)}catch{}
+    }
+    return send(res,404,{error:'No application icon found'});
+  }catch{return send(res,404,{error:'Application icon unavailable'})}
+}
 
 async function homeAssistant(req,res,url){if(!await requireAuth(req,res))return;const config=integrations.homeAssistant;if(!config.url||!config.token)return send(res,503,{error:'Home Assistant is not configured on the server'});const suffix=url.pathname.replace('/api/home-assistant','')||'/api/';if(!suffix.startsWith('/api/'))return send(res,400,{error:'Only Home Assistant API paths are allowed'});try{const upstream=await fetch(`${config.url}${suffix}${url.search}`,{method:req.method,headers:{Authorization:`Bearer ${config.token}`,'Content-Type':req.headers['content-type']||'application/json'},signal:AbortSignal.timeout(10000)});const body=Buffer.from(await upstream.arrayBuffer());res.writeHead(upstream.status,{...securityHeaders(),'Content-Type':upstream.headers.get('content-type')||'application/json','Cache-Control':'no-store'});res.end(body)}catch{return send(res,502,{error:'Home Assistant could not be reached'})}}
 
