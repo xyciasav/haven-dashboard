@@ -3,7 +3,7 @@ import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.5.8';
+const version = process.env.HAVEN_VERSION || '0.5.9';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');

@@ -20,8 +20,8 @@
   <link rel="stylesheet" href="version.css" />
   <link rel="stylesheet" href="keycloak.css" />
   <link rel="stylesheet" href="recovery.css" />
-  <link rel="stylesheet" href="app-manager.css?v=0.5.8" />
-  <link rel="stylesheet" href="integrations.css?v=0.5.8" />
+  <link rel="stylesheet" href="app-manager.css?v=0.5.9" />
+  <link rel="stylesheet" href="integrations.css?v=0.5.9" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -38,7 +38,7 @@
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.8</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.9</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
@@ -56,6 +56,7 @@
         </button>
       </div>
     </aside>
+    <button class="sidebar-backdrop" id="sidebar-backdrop" aria-label="Close menu"></button>
 
     <main class="main-content">
       <header class="topbar">
@@ -120,9 +121,16 @@
       <section id="page-integrations" class="page"><div class="page-title"><p class="eyebrow">CONNECTIONS</p><h1>Integrations</h1><p>Connect Plex, calendars, and your automation services.</p></div><div id="integrations-content"></div></section>
       <section id="page-settings" class="page"><div class="page-title"><p class="eyebrow">CONFIGURATION</p><h1>Settings</h1><p>Personalize Haven and manage authentication.</p></div><div id="settings-content"></div></section>
     </main>
+    <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+      <button class="active" data-page="home"><span data-icon="grid"></span><small>Home</small></button>
+      <button data-page="apps"><span data-icon="apps"></span><small>Apps</small></button>
+      <button data-page="home-control"><span data-icon="home"></span><small>Control</small></button>
+      <button data-page="calendar"><span data-icon="calendar"></span><small>Calendar</small></button>
+      <button id="mobile-more"><span data-icon="menu"></span><small>More</small></button>
+    </nav>
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
-  <script type="module" src="/app.js?v=0.5.8"></script>
+  <script type="module" src="/app.js?v=0.5.9"></script>
 </body>
 </html>
