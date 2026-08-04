@@ -72,6 +72,10 @@
 #favorite-apps .app-logo img { padding: 8px; }
 #favorite-apps .app-meta small { display: none; }
 #favorite-apps .app-meta strong { font-size: 13px; margin: 0; }
+.app-tile-wrap { position: relative; min-width: 0; }
+.app-tile-wrap .app-tile { width: 100%; height: 100%; }
+.favorite-app-button { position: absolute; z-index: 2; top: 9px; right: 9px; width: 28px; height: 28px; border: 0; border-radius: 50%; background: #eef1ed; color: #a6ada9; cursor: pointer; font-size: 15px; }
+.favorite-app-button.selected { background: #fff1c9; color: #c58a19; }
 .task-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .task-card { display: grid; gap: 6px; padding: 14px; background: #fff; border: 1px solid var(--line); border-radius: 11px; }
 .task-card strong { font: 600 12px 'Manrope'; }
