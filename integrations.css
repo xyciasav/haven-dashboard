@@ -62,6 +62,7 @@
 .month-day:nth-child(7n) { border-right: 0; }
 .month-day.outside { background: #fafbf9; color: #a7afab; }
 .month-number { display: grid; place-items: center; width: 24px; height: 24px; margin-bottom: 4px; font-size: 10px; font-weight: 700; }
+.month-mobile-date { display: none; }
 .month-day.today .month-number { border-radius: 50%; background: var(--navy); color: #fff; }
 .month-events { display: grid; gap: 3px; }
 .month-events span { display: block; overflow: hidden; padding: 4px 5px; border-radius: 5px; background: #edf1ed; color: #43534c; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
@@ -82,9 +83,18 @@
   .quick-action-add, .entity-grid, .task-grid { grid-template-columns: 1fr; }
   .entity-toolbar { flex-direction: column; }
   .entity-toolbar select { width: 100%; }
-  .month-day { min-height: 72px; padding: 4px; }
-  .month-events span { width: 7px; height: 7px; padding: 0; border-radius: 50%; color: transparent; }
-  .month-events small { display: none; }
+  .month-weekdays { display: none; }
+  .month-grid { display: block; padding: 5px 12px 12px; }
+  .month-day { display: none; min-height: 0; padding: 11px 0; border: 0; border-bottom: 1px solid var(--line); }
+  .month-day.has-events { display: grid; grid-template-columns: 78px minmax(0,1fr); align-items: start; gap: 10px; }
+  .month-day.has-events:last-child { border-bottom: 0; }
+  .month-day.outside { background: transparent; color: inherit; }
+  .month-number { display: none; }
+  .month-mobile-date { display: block; color: var(--muted); font-size: 10px; font-weight: 700; line-height: 1.4; text-transform: uppercase; }
+  .month-day.today .month-mobile-date { color: var(--green); }
+  .month-events { gap: 5px; }
+  .month-events span { width: auto; height: auto; padding: 7px 9px; border-radius: 8px; color: #33423c; font-size: 10px; line-height: 1.3; text-overflow: initial; white-space: normal; }
+  .month-events small { display: block; padding: 2px 4px; }
   .calendar-toolbar { padding: 13px; }
   .calendar-toolbar h2 { font-size: 14px; }
   .entity-card { grid-template-columns: 42px minmax(0, 1fr); }
