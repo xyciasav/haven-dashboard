@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="keycloak.css" />
   <link rel="stylesheet" href="recovery.css" />
   <link rel="stylesheet" href="app-manager.css" />
+  <link rel="stylesheet" href="integrations.css" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -37,12 +38,13 @@
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.3.0</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.4.0</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
         <button class="nav-item" data-page="home-control" aria-label="Home control"><span data-icon="home"></span><span>Home control</span></button>
         <button class="nav-item" data-page="calendar" aria-label="Calendar"><span data-icon="calendar"></span><span>Calendar</span></button>
+        <button class="nav-item" data-page="integrations" aria-label="Integrations"><span data-icon="server"></span><span>Integrations</span></button>
       </nav>
       <div class="sidebar-bottom">
         <button class="nav-item" data-page="settings"><span data-icon="settings"></span><span>Settings</span></button>
@@ -76,23 +78,17 @@
         <div class="dashboard-grid">
           <section class="card weather-card">
             <div class="weather-main">
-              <div><div class="weather-place"><span data-icon="pin"></span> San Francisco, CA</div><div class="temperature">72°</div><div class="condition">Mostly sunny</div></div>
+              <div><div class="weather-place"><span data-icon="pin"></span> Loading weather…</div><div class="temperature">—</div><div class="condition">Connecting to weather service</div></div>
               <div class="sun-art"><div class="sun"></div><div class="cloud cloud-one"></div><div class="cloud cloud-two"></div></div>
             </div>
-            <div class="forecast">
-              <div><span>NOW</span><i class="mini-sun"></i><strong>72°</strong></div>
-              <div><span>7 PM</span><i class="mini-sun"></i><strong>69°</strong></div>
-              <div><span>8 PM</span><i class="mini-cloud"></i><strong>66°</strong></div>
-              <div><span>9 PM</span><i class="mini-cloud"></i><strong>64°</strong></div>
-              <div><span>10 PM</span><i class="mini-moon">☾</i><strong>62°</strong></div>
-            </div>
+            <div class="forecast" id="weather-forecast"></div>
           </section>
 
           <section class="card home-status-card">
             <div class="card-heading"><div><p class="eyebrow">HOME STATUS</p><h2>Everything's good</h2></div><div class="status-check">✓</div></div>
             <div class="home-stats">
               <div><span class="stat-icon coral" data-icon="thermometer"></span><p>Indoor</p><strong>71°</strong></div>
-              <div><span class="stat-icon blue" data-icon="droplet"></span><p>Humidity</p><strong>42%</strong></div>
+              <div><span class="stat-icon blue" data-icon="droplet"></span><p>Outside humidity</p><strong id="weather-humidity">—</strong></div>
               <div><span class="stat-icon violet" data-icon="lightbulb"></span><p>Lights on</p><strong>4</strong></div>
               <div><span class="stat-icon green" data-icon="lock"></span><p>Doors</p><strong>Locked</strong></div>
             </div>
@@ -122,12 +118,13 @@
 
       <section id="page-apps" class="page"><div class="page-title"><p class="eyebrow">LAUNCHPAD</p><h1>Applications</h1><p>Everything you run, all in one place.</p></div><div class="app-grid all-apps" id="all-apps"></div></section>
       <section id="page-home-control" class="page"><div class="page-title"><p class="eyebrow">HOME ASSISTANT</p><h1>Your home</h1><p>Rooms and devices will appear here when connected.</p></div><div class="empty-state"><span data-icon="home"></span><h2>Connect Home Assistant</h2><p>Add your server URL and a long-lived access token to control devices from Haven.</p><button class="primary-button" data-open-settings>Configure integration</button></div></section>
-      <section id="page-calendar" class="page"><div class="page-title"><p class="eyebrow">UP NEXT</p><h1>Calendar</h1><p>A calm overview of your day.</p></div><div class="calendar-card card"><div class="calendar-day"><strong>03</strong><span>MON</span></div><div class="calendar-events"><div><i class="event-dot coral-dot"></i><span><small>9:30 AM</small><strong>Team standup</strong></span></div><div><i class="event-dot blue-dot"></i><span><small>1:00 PM</small><strong>Lunch with Sam</strong></span></div><div><i class="event-dot green-dot"></i><span><small>6:30 PM</small><strong>Movie night</strong></span></div></div></div></section>
-      <section id="page-settings" class="page"><div class="page-title"><p class="eyebrow">CONFIGURATION</p><h1>Settings & integrations</h1><p>Connect the services that make Haven yours.</p></div><div id="settings-content"></div></section>
+      <section id="page-calendar" class="page"><div class="page-title"><p class="eyebrow">UP NEXT</p><h1>Calendar</h1><p>Your configured calendar feed.</p></div><div id="calendar-content" class="calendar-feed"><div class="empty-state"><span data-icon="calendar"></span><h2>Connect a calendar</h2><p>Add an ICS subscription URL in Integrations.</p><button class="primary-button" data-page-target="integrations">Configure calendar</button></div></div></section>
+      <section id="page-integrations" class="page"><div class="page-title"><p class="eyebrow">CONNECTIONS</p><h1>Integrations</h1><p>Connect Plex, calendars, and your automation services.</p></div><div id="integrations-content"></div></section>
+      <section id="page-settings" class="page"><div class="page-title"><p class="eyebrow">CONFIGURATION</p><h1>Settings</h1><p>Personalize Haven and manage authentication.</p></div><div id="settings-content"></div></section>
     </main>
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
-  <script type="module" src="/app.js?v=0.3.0"></script>
+  <script type="module" src="/app.js?v=0.4.0"></script>
 </body>
 </html>

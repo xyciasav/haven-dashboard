@@ -1,0 +1,30 @@
+.integration-config { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.integration-wide { grid-column: 1 / -1; }
+.integration-state { margin-left: auto; padding: 6px 9px; border-radius: 20px; background: #f0f1ed; color: var(--muted); font-size: 9px; font-weight: 700; }
+.integration-state.connected { background: #dff0e6; color: #347c61; }
+.arr-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.arr-config { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: #fafbf9; }
+.arr-config > div { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.arr-config > div > strong { font: 600 13px 'Manrope'; }
+.integration-save { grid-column: 1 / -1; }
+.integration-save > div { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.integration-save small { color: var(--muted); font-size: 9px; line-height: 1.5; }
+.integration-empty { color: var(--muted); font-size: 11px; padding: 18px; border: 1px dashed var(--line); border-radius: 10px; grid-column: 1 / -1; }
+.app-empty { grid-column: 1 / -1; }
+.plex-poster { background-color: #26364b; background-position: center; background-size: cover; }
+.calendar-feed { display: grid; gap: 10px; max-width: 760px; }
+.calendar-event-card { display: flex; align-items: center; gap: 17px; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 13px; box-shadow: var(--shadow); }
+.calendar-date { width: 50px; height: 54px; display: grid; place-content: center; text-align: center; border-radius: 9px; background: var(--navy); color: #fff; flex: 0 0 auto; }
+.calendar-date strong { font: 600 20px 'Manrope'; line-height: 1; }
+.calendar-date span { font-size: 8px; letter-spacing: 1px; margin-top: 4px; }
+.calendar-event-card small { color: var(--muted); font-size: 9px; }
+.calendar-event-card h3 { margin: 3px 0 0; font: 600 13px 'Manrope'; }
+.mini-rain { width: 16px; height: 11px; border-radius: 8px; background: #b8cbd4; position: relative; margin: 2px; }
+.mini-rain::after { content: '• • •'; position: absolute; top: 5px; left: 1px; color: #79a2b6; font-size: 8px; letter-spacing: 1px; }
+.mini-snow { color: #dcecf2; font-style: normal; }
+.mini-snow::before { content: '❄'; }
+@media (max-width: 760px) {
+  .integration-config, .arr-grid { grid-template-columns: 1fr; }
+  .integration-wide, .integration-save { grid-column: auto; }
+  .integration-save > div { align-items: stretch; flex-direction: column; }
+}

@@ -1,18 +1,14 @@
 # Haven
 
-Current release: **v0.3.0** · Docker image: `haven-dashboard:0.3.0`
+Current release: **v0.4.0** · Docker image: `haven-dashboard:0.4.0`
 
-A calm, self-hosted home dashboard inspired by Organizr: application launcher, weather, Home Assistant status, media updates, scenes, calendar, and Keycloak authentication.
+A calm, self-hosted home dashboard inspired by Organizr: a user-managed application launcher, live weather, Plex activity, ICS calendars, Home Assistant, arr integrations, and Keycloak authentication.
 
 ## Run it
 
-This first version has no build step. From this folder:
+Haven has no frontend build step. The supported deployment is Docker Compose; for development, run the Node server with `PUBLIC_DIR` pointing to this folder and `DATA_DIR` pointing to a writable test folder.
 
-```powershell
-python -m http.server 4173
-```
-
-Then open `http://localhost:4173`.
+Static-only web servers do not provide weather, Plex, calendar, authentication settings, or integration APIs.
 
 ## Deploy with Portainer
 
@@ -23,7 +19,7 @@ The repository includes a production Node image and a Portainer-ready `docker-co
 3. Use the default compose path `docker-compose.yml` and deploy the stack.
 4. Open `http://YOUR-SERVER:43127`.
 
-Before deploying, replace the setup token and add sensitive integration values in Portainer:
+Before deploying, replace the setup token and optionally add Home Assistant in Portainer:
 
 ```yaml
 HAVEN_SETUP_TOKEN: generate-a-long-random-value
@@ -40,7 +36,18 @@ Haven is an installable PWA with a home-screen icon, standalone display mode, an
 - Android/Chrome: use Haven's **Install app** button or the browser's **Install app** menu item.
 - iPhone/Safari: tap **Share** → **Add to Home Screen**.
 
-Display preferences and application URLs are stored separately in each phone's browser. Sensitive integration credentials are stored as Portainer environment variables and never sent to the phone. Haven validates the signed-in user against Keycloak before proxying any Home Assistant request.
+Display preferences and application URLs are stored separately in each phone's browser. Plex tokens, calendar subscription URLs, and arr API keys are stored in the `haven-data` Docker volume and are never returned to the browser. Haven validates the signed-in user against Keycloak before proxying protected integration requests.
+
+## Integrations
+
+Open Haven's **Integrations** tab and enter the `HAVEN_SETUP_TOKEN` when saving:
+
+- **Plex:** server URL and Plex token; Haven shows recently added library items.
+- **Home Assistant:** server URL and long-lived access token; Portainer environment values remain supported as defaults.
+- **Calendar:** a private ICS subscription URL from Google Calendar, Apple Calendar, Outlook, or another ICS provider.
+- **Sonarr, Radarr, Lidarr, and Readarr:** server URL and API key, with connection tests.
+
+Weather uses Open-Meteo and requires no API key. Set the location under **Settings → Dashboard**. Integration secrets remain server-side; blank token/API-key fields preserve the previously saved secret.
 
 For Cloudflare, route your Tunnel or reverse proxy to `http://haven:3000` when it shares Haven's Docker network, or to `http://YOUR-SERVER:43127`. Use **Full (strict)** TLS mode and keep the public Keycloak redirect URI synchronized with Haven's final HTTPS hostname.
 
