@@ -14,14 +14,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=0.5.15" />
-  <link rel="stylesheet" href="settings.css?v=0.5.15" />
-  <link rel="stylesheet" href="security.css?v=0.5.15" />
-  <link rel="stylesheet" href="version.css?v=0.5.15" />
-  <link rel="stylesheet" href="keycloak.css?v=0.5.15" />
-  <link rel="stylesheet" href="recovery.css?v=0.5.15" />
-  <link rel="stylesheet" href="app-manager.css?v=0.5.15" />
-  <link rel="stylesheet" href="integrations.css?v=0.5.15" />
+  <link rel="stylesheet" href="styles.css?v=0.5.16" />
+  <link rel="stylesheet" href="settings.css?v=0.5.16" />
+  <link rel="stylesheet" href="security.css?v=0.5.16" />
+  <link rel="stylesheet" href="version.css?v=0.5.16" />
+  <link rel="stylesheet" href="keycloak.css?v=0.5.16" />
+  <link rel="stylesheet" href="recovery.css?v=0.5.16" />
+  <link rel="stylesheet" href="app-manager.css?v=0.5.16" />
+  <link rel="stylesheet" href="integrations.css?v=0.5.16" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -38,7 +38,7 @@
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.15</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.16</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
@@ -65,10 +65,11 @@
         <div class="top-actions">
           <button id="install-app" class="install-button hidden">Install app</button>
           <div class="status-pill"><span></span> All systems operational</div>
-          <button class="icon-button" aria-label="Notifications"><span data-icon="bell"></span><i></i></button>
+          <button class="icon-button" id="notifications-button" aria-label="Notifications" aria-expanded="false"><span data-icon="bell"></span><i id="notification-dot"></i></button>
           <span class="avatar top-avatar">ML</span>
         </div>
       </header>
+      <aside class="notifications-panel hidden" id="notifications-panel" aria-live="polite"><div class="notifications-heading"><div><p class="eyebrow">NOTIFICATIONS</p><h2>Needs your attention</h2></div><button type="button" id="notifications-close" aria-label="Close notifications">×</button></div><div id="notifications-list"><div class="integration-empty">Checking for updates…</div></div></aside>
 
       <section id="page-home" class="page active">
         <div class="welcome-row">
@@ -131,6 +132,6 @@
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
-  <script type="module" src="/app.js?v=0.5.15"></script>
+  <script type="module" src="/app.js?v=0.5.16"></script>
 </body>
 </html>
