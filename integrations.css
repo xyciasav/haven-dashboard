@@ -88,20 +88,19 @@
   .quick-action-add, .entity-grid, .task-grid { grid-template-columns: 1fr; }
   .entity-toolbar { flex-direction: column; }
   .entity-toolbar select { width: 100%; }
-  .month-weekdays { display: none; }
-  .month-grid { display: block; padding: 5px 12px 12px; }
-  .month-day { display: none; min-height: 0; padding: 11px 0; border: 0; border-bottom: 1px solid var(--line); }
-  .month-day.has-events { display: grid; grid-template-columns: 78px minmax(0,1fr); align-items: start; gap: 10px; }
-  .month-day.has-events:last-child { border-bottom: 0; }
-  .month-day.outside { background: transparent; color: inherit; }
-  .month-number { display: none; }
-  .month-mobile-date { display: block; color: var(--muted); font-size: 10px; font-weight: 700; line-height: 1.4; text-transform: uppercase; }
-  .month-day.today .month-mobile-date { color: var(--green); }
-  .month-events { gap: 5px; }
-  .month-events button { width: 100%; height: auto; padding: 8px 9px; border-radius: 8px; color: #33423c; font-size: 10px; line-height: 1.3; }
-  .month-events button b { font-size: 14px; }
-  .month-events button span { text-overflow: initial; white-space: normal; }
-  .month-events small { display: block; padding: 2px 4px; }
+  .month-weekdays { display: grid; }
+  .month-weekdays span { padding: 7px 2px; font-size: 8px; }
+  .month-grid { display: grid; padding: 0; }
+  .month-day { display: block; min-height: 70px; padding: 5px 3px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .month-day:nth-child(7n) { border-right: 0; }
+  .month-day.outside { background: #fafbf9; color: #a7afab; }
+  .month-number { display: grid; width: 20px; height: 20px; margin-bottom: 2px; font-size: 9px; }
+  .month-mobile-date { display: none; }
+  .month-events { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 2px; }
+  .month-events button { width: 22px; height: 22px; justify-content: center; padding: 2px; border-radius: 6px; }
+  .month-events button b { font-size: 13px; }
+  .month-events button span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .month-events small { width: 100%; font-size: 7px; text-align: center; }
   .calendar-toolbar { padding: 13px; }
   .calendar-toolbar h2 { font-size: 14px; }
   .entity-card { grid-template-columns: 42px minmax(0, 1fr); }
