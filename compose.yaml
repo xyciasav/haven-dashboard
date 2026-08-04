@@ -1,10 +1,10 @@
 services:
   haven:
-    image: haven-dashboard:0.6.2
+    image: haven-dashboard:0.6.3
     build:
       context: .
       args:
-        HAVEN_VERSION: 0.6.2
+        HAVEN_VERSION: 0.6.3
     container_name: haven
     restart: unless-stopped
     ports:
@@ -13,12 +13,15 @@ services:
       HAVEN_USER_NAME: Mike
       HAVEN_SETUP_TOKEN: ${HAVEN_SETUP_TOKEN:-}
       HAVEN_AUTH_BYPASS: ${HAVEN_AUTH_BYPASS:-false}
+      HAVEN_HOST_IP: ${HAVEN_HOST_IP:-10.0.0.230}
       KEYCLOAK_ENABLED: "false"
       KEYCLOAK_URL: ""
       KEYCLOAK_REALM: ""
       KEYCLOAK_CLIENT_ID: haven
       HOME_ASSISTANT_URL: ${HOME_ASSISTANT_URL:-}
       HOME_ASSISTANT_TOKEN: ${HOME_ASSISTANT_TOKEN:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     security_opt:
       - no-new-privileges:true
     tmpfs:
