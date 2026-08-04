@@ -1,6 +1,6 @@
 # Haven
 
-Current release: **v0.4.0** · Docker image: `haven-dashboard:0.4.0`
+Current release: **v0.4.1** · Docker image: `haven-dashboard:0.4.1`
 
 A calm, self-hosted home dashboard inspired by Organizr: a user-managed application launcher, live weather, Plex activity, ICS calendars, Home Assistant, arr integrations, and Keycloak authentication.
 
@@ -40,7 +40,7 @@ Display preferences and application URLs are stored separately in each phone's b
 
 ## Integrations
 
-Open Haven's **Integrations** tab and enter the `HAVEN_SETUP_TOKEN` when saving:
+Open Haven's **Integrations** tab while signed in. The first authenticated Keycloak user becomes the integration owner and can save without repeatedly entering `HAVEN_SETUP_TOKEN`; the token remains available as a recovery key.
 
 - **Plex:** server URL and Plex token; Haven shows recently added library items.
 - **Home Assistant:** server URL and long-lived access token; Portainer environment values remain supported as defaults.

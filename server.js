@@ -3,7 +3,7 @@ import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.4.0';
+const version = process.env.HAVEN_VERSION || '0.4.1';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');
@@ -15,32 +15,35 @@ let storedSettings = {};
 await mkdir(dataDir,{recursive:true});
 try{storedSettings=JSON.parse(await readFile(settingsFile,'utf8'))}catch{}
 let runtimeAuth = {...baseAuth,...(storedSettings.auth||{})};
+let integrationOwnerSub = String(storedSettings.integrationOwnerSub||'');
 let integrations = {homeAssistant:{...emptyIntegrations.homeAssistant,...(storedSettings.integrations?.homeAssistant||{})},plex:{...emptyIntegrations.plex,...(storedSettings.integrations?.plex||{})},calendar:{...emptyIntegrations.calendar,...(storedSettings.integrations?.calendar||{})},arrs:{}};
 for(const name of Object.keys(emptyIntegrations.arrs))integrations.arrs[name]={...emptyIntegrations.arrs[name],...(storedSettings.integrations?.arrs?.[name]||{})};
 const mime = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.webmanifest':'application/manifest+json','.svg':'image/svg+xml','.png':'image/png'};
 const clientConfig = {user:{name:process.env.HAVEN_USER_NAME||'Mike'},auth:{}};
 
-async function persistSettings(){storedSettings={...storedSettings,auth:runtimeAuth,integrations};await writeFile(settingsFile,JSON.stringify(storedSettings,null,2),'utf8')}
+async function persistSettings(){storedSettings={...storedSettings,auth:runtimeAuth,integrations,integrationOwnerSub};await writeFile(settingsFile,JSON.stringify(storedSettings,null,2),'utf8')}
 async function writeClientConfig(){clientConfig.auth={...runtimeAuth,enabled:runtimeAuth.enabled&&!authBypass,adapterUrl:'/vendor/keycloak.js'};await writeFile(join(publicDir,'config.js'),`export default ${JSON.stringify(clientConfig)};\n`,'utf8')}
 await writeClientConfig();
 
 function securityHeaders(){
   let keycloakOrigin='';
   try{keycloakOrigin=runtimeAuth.url?new URL(runtimeAuth.url).origin:''}catch{}
-  return {'X-Content-Type-Options':'nosniff','X-Frame-Options':'SAMEORIGIN','Referrer-Policy':'strict-origin-when-cross-origin','Permissions-Policy':'camera=(), microphone=(), geolocation=()','Content-Security-Policy':`default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https: ${keycloakOrigin}; img-src 'self' data: http: https:; frame-ancestors 'self'`};
+  return {'X-Content-Type-Options':'nosniff','X-Frame-Options':'SAMEORIGIN','Referrer-Policy':'strict-origin-when-cross-origin','Permissions-Policy':'camera=(), microphone=(), geolocation=()','Content-Security-Policy':`default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https: ${keycloakOrigin}; img-src 'self' data: blob: http: https:; frame-ancestors 'self'`};
 }
 function send(res,status,body,type='application/json'){res.writeHead(status,{...securityHeaders(),'Content-Type':type,'Cache-Control':'no-store'});res.end(type==='application/json'&&typeof body!=='string'?JSON.stringify(body):body)}
 async function readJson(req){let body='';for await(const chunk of req){body+=chunk;if(body.length>65536)throw new Error('Request too large')}return JSON.parse(body||'{}')}
 function setupAuthorized(req,res){if(!setupToken){send(res,503,{error:'HAVEN_SETUP_TOKEN is not configured in Portainer'});return false}if(req.headers['x-haven-setup-token']!==setupToken){send(res,403,{error:'Invalid setup token'});return false}return true}
 function cleanUrl(value){const text=String(value||'').trim().replace(/\/$/,'');if(!text)return '';const parsed=new URL(text);if(!['http:','https:'].includes(parsed.protocol))throw new Error('Only http and https URLs are allowed');return text}
 
-async function authenticated(req){
+async function authenticatedIdentity(req){
   if(!runtimeAuth.enabled||!runtimeAuth.url||!runtimeAuth.realm)return false;
   const authorization=req.headers.authorization;
   if(!authorization?.startsWith('Bearer '))return false;
-  try{return (await fetch(`${runtimeAuth.url}/realms/${encodeURIComponent(runtimeAuth.realm)}/protocol/openid-connect/userinfo`,{headers:{Authorization:authorization},signal:AbortSignal.timeout(5000)})).ok}catch{return false}
+  try{const response=await fetch(`${runtimeAuth.url}/realms/${encodeURIComponent(runtimeAuth.realm)}/protocol/openid-connect/userinfo`,{headers:{Authorization:authorization},signal:AbortSignal.timeout(5000)});return response.ok?await response.json():false}catch{return false}
 }
+async function authenticated(req){return Boolean(await authenticatedIdentity(req))}
 async function requireAuth(req,res){if(await authenticated(req))return true;send(res,401,{error:'Keycloak authentication required'});return false}
+async function integrationOwnerAuthorized(req,res){const identity=await authenticatedIdentity(req);if(identity?.sub&&(!integrationOwnerSub||integrationOwnerSub===identity.sub)){if(!integrationOwnerSub){integrationOwnerSub=identity.sub;await persistSettings()}return true}return setupAuthorized(req,res)}
 
 async function configureKeycloak(req,res){
   if(!setupAuthorized(req,res))return;
@@ -48,7 +51,7 @@ async function configureKeycloak(req,res){
 }
 function mergeSecretService(input,previous,secretKey){const url=cleanUrl(input?.url);if(!url)return {url:'',[secretKey]:''};return {url,[secretKey]:String(input?.[secretKey]||'').trim()||previous?.[secretKey]||''}}
 async function configureIntegrations(req,res){
-  if(!setupAuthorized(req,res))return;
+  if(!await integrationOwnerAuthorized(req,res))return;
   try{
     const body=await readJson(req),next={homeAssistant:mergeSecretService(body.homeAssistant,integrations.homeAssistant,'token'),plex:mergeSecretService(body.plex,integrations.plex,'token'),calendar:{icsUrl:String(body.calendar?.icsUrl||'').trim()?cleanUrl(body.calendar.icsUrl):integrations.calendar.icsUrl},arrs:{}};
     for(const name of Object.keys(emptyIntegrations.arrs))next.arrs[name]=mergeSecretService(body.arrs?.[name],integrations.arrs[name],'apiKey');
