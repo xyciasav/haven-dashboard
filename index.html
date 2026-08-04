@@ -14,14 +14,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=0.5.16" />
-  <link rel="stylesheet" href="settings.css?v=0.5.16" />
-  <link rel="stylesheet" href="security.css?v=0.5.16" />
-  <link rel="stylesheet" href="version.css?v=0.5.16" />
-  <link rel="stylesheet" href="keycloak.css?v=0.5.16" />
-  <link rel="stylesheet" href="recovery.css?v=0.5.16" />
-  <link rel="stylesheet" href="app-manager.css?v=0.5.16" />
-  <link rel="stylesheet" href="integrations.css?v=0.5.16" />
+  <link rel="stylesheet" href="styles.css?v=0.5.17" />
+  <link rel="stylesheet" href="settings.css?v=0.5.17" />
+  <link rel="stylesheet" href="security.css?v=0.5.17" />
+  <link rel="stylesheet" href="version.css?v=0.5.17" />
+  <link rel="stylesheet" href="keycloak.css?v=0.5.17" />
+  <link rel="stylesheet" href="recovery.css?v=0.5.17" />
+  <link rel="stylesheet" href="app-manager.css?v=0.5.17" />
+  <link rel="stylesheet" href="integrations.css?v=0.5.17" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -38,7 +38,7 @@
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.16</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.17</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
@@ -51,7 +51,7 @@
         <button class="nav-item" data-logout><span data-icon="logOut"></span><span>Sign out</span></button>
         <button class="profile-mini" id="profile-button">
           <span class="avatar">ML</span>
-          <span class="profile-copy"><strong id="sidebar-name">Mike</strong><small>Administrator</small></span>
+          <span class="profile-copy"><strong id="sidebar-name">Haven user</strong><small id="sidebar-username">Keycloak account</small></span>
           <span class="more">•••</span>
         </button>
       </div>
@@ -73,12 +73,12 @@
 
       <section id="page-home" class="page active">
         <div class="welcome-row">
-          <div><p class="date-label" id="today-label"></p><h1>Good evening, <span id="welcome-name">Mike</span>.</h1><p>Everything looks calm at home.</p></div>
-          <button class="outline-button" data-open-settings><span data-icon="sliders"></span> Customize</button>
+          <div><p class="date-label" id="today-label"></p><h1>Good evening, <span id="welcome-name">Haven user</span>.</h1><p>Everything looks calm at home.</p></div>
+          <button class="outline-button" id="customize-dashboard"><span data-icon="sliders"></span> Customize</button>
         </div>
 
-        <div class="dashboard-grid">
-          <section class="card weather-card">
+        <div class="dashboard-widgets" id="dashboard-widgets">
+          <section class="card weather-card dashboard-widget" data-widget="weather" draggable="false">
             <div class="weather-main">
               <div><div class="weather-place"><span data-icon="pin"></span> Loading weather…</div><div class="temperature">—</div><div class="condition">Connecting to weather service</div></div>
               <div class="sun-art"><div class="sun"></div><div class="cloud cloud-one"></div><div class="cloud cloud-two"></div></div>
@@ -86,7 +86,7 @@
             <div class="forecast" id="weather-forecast"></div>
           </section>
 
-          <section class="card home-status-card">
+          <section class="card home-status-card dashboard-widget" data-widget="home-status" draggable="false">
             <div class="card-heading"><div><p class="eyebrow">HOME STATUS</p><h2 id="home-status-title">Connecting to Home Assistant…</h2></div><div class="status-check" id="home-status-check">…</div></div>
             <div class="home-stats">
               <div><span class="stat-icon coral" data-icon="thermometer"></span><p>Temperature</p><strong id="ha-temperature">—</strong></div>
@@ -95,25 +95,22 @@
               <div><span class="stat-icon green" data-icon="lock"></span><p>Locks</p><strong id="ha-locks">—</strong></div>
             </div>
           </section>
-        </div>
-
-        <section class="section-block">
+          <section class="section-block dashboard-widget widget-wide" data-widget="applications" draggable="false">
           <div class="section-heading"><div><h2>Your applications</h2><p>Quick access to your favorite services</p></div><button class="text-button" data-page-target="apps">View all <span>→</span></button></div>
           <div class="app-grid" id="favorite-apps"></div>
-        </section>
-
-        <div class="lower-grid">
-          <section class="section-block movie-section">
+          </section>
+          <section class="section-block movie-section dashboard-widget" data-widget="plex" draggable="false">
             <div class="section-heading"><div><h2>Recently added</h2><p>Fresh from your media library</p></div><button class="text-button" id="plex-library-button">Open library <span>→</span></button></div>
             <div class="movie-list" id="movie-list"></div>
           </section>
-          <section class="card scenes-card">
+          <section class="card scenes-card dashboard-widget" data-widget="quick-actions" draggable="false">
             <div class="section-heading"><div><p class="eyebrow">QUICK SCENES</p><h2>Set the mood</h2></div><span data-icon="sparkles"></span></div>
             <div class="scene-list" id="quick-actions"><div class="integration-empty">Add quick actions in Integrations.</div></div>
           </section>
+          <section class="section-block dashboard-widget widget-wide hidden" data-widget="vikunja" draggable="false" id="vikunja-section"><div class="section-heading"><div><h2>Assigned to you</h2><p>Upcoming tasks from Vikunja</p></div><button class="text-button" id="vikunja-open-button">Open Vikunja <span>→</span></button></div><div id="vikunja-mapping"></div><div class="task-grid" id="vikunja-tasks"></div></section>
+          <section class="section-block dashboard-widget widget-wide hidden" data-widget="chores" draggable="false" id="chores-section"><div class="section-heading"><div><h2>Needs your attention</h2><p>Pending chores and reward requests</p></div><button class="text-button" id="chores-open-button">Open chore app <span>→</span></button></div><div class="task-grid" id="chores-items"></div></section>
         </div>
-        <section class="section-block hidden" id="vikunja-section"><div class="section-heading"><div><h2>Assigned to you</h2><p>Open tasks from Vikunja</p></div><button class="text-button" id="vikunja-open-button">Open Vikunja <span>→</span></button></div><div class="task-grid" id="vikunja-tasks"></div></section>
-        <section class="section-block hidden" id="chores-section"><div class="section-heading"><div><h2>Needs your attention</h2><p>Pending chores and reward requests</p></div><button class="text-button" id="chores-open-button">Open chore app <span>→</span></button></div><div class="task-grid" id="chores-items"></div></section>
+        <aside class="widget-editor hidden" id="widget-editor"><div class="notifications-heading"><div><p class="eyebrow">DASHBOARD LAYOUT</p><h2>Customize your dashboard</h2></div><button type="button" id="widget-editor-close">×</button></div><p>Drag visible widgets on the dashboard to reorder them, or use the controls below.</p><div id="widget-editor-list"></div><button class="primary-button" id="save-widget-layout" type="button">Save layout</button></aside>
       </section>
 
       <section id="page-apps" class="page"><div class="page-title"><p class="eyebrow">LAUNCHPAD</p><h1>Applications</h1><p>Everything you run, all in one place.</p></div><div class="app-grid all-apps" id="all-apps"></div></section>
@@ -132,6 +129,6 @@
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
-  <script type="module" src="/app.js?v=0.5.16"></script>
+  <script type="module" src="/app.js?v=0.5.17"></script>
 </body>
 </html>
