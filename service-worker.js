@@ -1,5 +1,5 @@
-const CACHE = 'haven-shell-v0.5.13';
-const SHELL = ['/', '/index.html', '/styles.css?v=0.5.13', '/settings.css?v=0.5.13', '/security.css?v=0.5.13', '/version.css?v=0.5.13', '/keycloak.css?v=0.5.13', '/recovery.css?v=0.5.13', '/app-manager.css?v=0.5.13', '/integrations.css?v=0.5.13', '/app.js?v=0.5.13', '/vendor/keycloak.js', '/manifest.webmanifest', '/icons/haven.svg', '/icons/haven-192.png', '/icons/haven-512.png'];
+const CACHE = 'haven-shell-v0.5.14';
+const SHELL = ['/', '/index.html', '/styles.css?v=0.5.14', '/settings.css?v=0.5.14', '/security.css?v=0.5.14', '/version.css?v=0.5.14', '/keycloak.css?v=0.5.14', '/recovery.css?v=0.5.14', '/app-manager.css?v=0.5.14', '/integrations.css?v=0.5.14', '/app.js?v=0.5.14', '/vendor/keycloak.js', '/manifest.webmanifest', '/icons/haven.svg', '/icons/haven-192.png', '/icons/haven-512.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
