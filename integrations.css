@@ -42,6 +42,10 @@
 .task-card { display: grid; gap: 6px; padding: 14px; background: #fff; border: 1px solid var(--line); border-radius: 11px; }
 .task-card strong { font: 600 12px 'Manrope'; }
 .task-card small { color: var(--muted); font-size: 9px; }
+.task-card:is(button) { color: var(--ink); text-align: left; cursor: pointer; }
+.task-card:is(button):hover { border-color: #cbd2ca; box-shadow: var(--shadow); }
+.attention-card { border-left: 3px solid var(--accent); }
+.task-kind { width: max-content; padding: 3px 6px; border-radius: 10px; background: #f8e5df; color: #b85c48; font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; }
 .app-empty { grid-column: 1 / -1; }
 .plex-poster { background-color: #26364b; background-position: center; background-size: cover; }
 .calendar-feed { display: grid; gap: 10px; max-width: 760px; }

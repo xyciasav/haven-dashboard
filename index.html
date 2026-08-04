@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="keycloak.css" />
   <link rel="stylesheet" href="recovery.css" />
   <link rel="stylesheet" href="app-manager.css" />
-  <link rel="stylesheet" href="integrations.css?v=0.5.2" />
+  <link rel="stylesheet" href="integrations.css?v=0.5.3" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -38,7 +38,7 @@
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.2</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.5.3</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
@@ -111,6 +111,7 @@
           </section>
         </div>
         <section class="section-block hidden" id="vikunja-section"><div class="section-heading"><div><h2>Assigned to you</h2><p>Open tasks from Vikunja</p></div><button class="text-button" id="vikunja-open-button">Open Vikunja <span>→</span></button></div><div class="task-grid" id="vikunja-tasks"></div></section>
+        <section class="section-block hidden" id="chores-section"><div class="section-heading"><div><h2>Needs your attention</h2><p>Pending chores and reward requests</p></div><button class="text-button" id="chores-open-button">Open chore app <span>→</span></button></div><div class="task-grid" id="chores-items"></div></section>
       </section>
 
       <section id="page-apps" class="page"><div class="page-title"><p class="eyebrow">LAUNCHPAD</p><h1>Applications</h1><p>Everything you run, all in one place.</p></div><div class="app-grid all-apps" id="all-apps"></div></section>
@@ -122,6 +123,6 @@
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
-  <script type="module" src="/app.js?v=0.5.2"></script>
+  <script type="module" src="/app.js?v=0.5.3"></script>
 </body>
 </html>
