@@ -4,7 +4,7 @@ import { extname, join, normalize } from 'node:path';
 import { createPublicKey, verify as verifySignature } from 'node:crypto';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.6.3';
+const version = process.env.HAVEN_VERSION || '0.6.4';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');
@@ -109,7 +109,19 @@ async function calendarEvents(req,res){if(!await requireAuth(req,res))return;if(
 async function testIntegration(req,res,url){
   const identity=await authenticatedIdentity(req);if(!identity)return send(res,401,{error:'Keycloak authentication required'});const service=String(url.searchParams.get('service')||'');
   if(service==='immich'){try{const config=personalIntegration(identity,'immich');if(!config.url||!config.apiKey)throw new Error('Immich URL or API key is missing for this user');await immichAssets(config);return send(res,200,{ok:true})}catch(error){return send(res,502,{error:error.message||'Immich connection failed'})}}
-  if(service==='vikunja'){try{const config=personalIntegration(identity,'vikunja');if(!config.url||!config.token)throw new Error('Vikunja URL or API token is missing for this user');const response=await fetch(`${vikunjaApiBase(config.url)}/user`,{headers:{Authorization:`Bearer ${config.token.replace(/^Bearer\s+/i,'').trim()}`,Accept:'application/json'},redirect:'manual',signal:AbortSignal.timeout(8000)});if(!response.ok)return send(res,502,{error:response.status===401?'Vikunja rejected this user’s API token (401)':`Vikunja returned ${response.status}`});return send(res,200,{ok:true})}catch(error){return send(res,502,{error:error.message||'Vikunja connection failed'})}}
+  if(service==='vikunja'){
+    let target='not resolved';
+    try{
+      const config=personalIntegration(identity,'vikunja');
+      if(!config.url||!config.token)throw new Error('Vikunja URL or API token is missing for this user');
+      target=`${vikunjaApiBase(config.url)}/user`;
+      console.log(`Vikunja test: requesting ${target}`);
+      const response=await fetch(target,{headers:{Authorization:`Bearer ${config.token.replace(/^Bearer\s+/i,'').trim()}`,Accept:'application/json'},redirect:'manual',signal:AbortSignal.timeout(8000)});
+      if(!response.ok){const error=response.status===401?'Vikunja rejected this user’s API token (401)':`Vikunja returned HTTP ${response.status}`;console.error(`Vikunja test failed: ${error}`);return send(res,200,{ok:false,error,target})}
+      console.log(`Vikunja test connected: ${target}`);
+      return send(res,200,{ok:true,target});
+    }catch(error){const reason=error?.cause?.code||error.message||'Vikunja connection failed';console.error(`Vikunja test failed for ${target}: ${reason}`);return send(res,200,{ok:false,error:`Could not reach Vikunja: ${reason}`,target})}
+  }
   try{let target,headers={};if(service==='homeAssistant'){const config=integrations.homeAssistant;if(!config.url||!config.token)throw new Error('Home Assistant is not configured');target=`${config.url}/api/`;headers.Authorization=`Bearer ${config.token}`}else if(service==='plex'){if(!integrations.plex.url||!integrations.plex.token)throw new Error('Plex is not configured');target=`${integrations.plex.url}/identity`;headers['X-Plex-Token']=integrations.plex.token}else if(service==='vikunja'){if(!integrations.vikunja.url||!integrations.vikunja.token)throw new Error('Vikunja URL or API token is missing');target=`${vikunjaApiBase(integrations.vikunja.url)}/user`;headers={Authorization:`Bearer ${integrations.vikunja.token.replace(/^Bearer\s+/i,'').trim()}`,Accept:'application/json'}}else if(service==='homeAssistantCalendar'){const config=integrations.homeAssistant,entity=config.calendarEntity;if(!config.url||!config.token||!entity)throw new Error('Home Assistant calendar is not configured');const start=new Date(),end=new Date(start.getTime()+86400000),query=new URLSearchParams({start:start.toISOString(),end:end.toISOString()});target=`${config.url}/api/calendars/${encodeURIComponent(entity)}?${query}`;headers.Authorization=`Bearer ${config.token}`}else if(service==='chores'){if(!integrations.chores.url)throw new Error('Chore app is not configured');target=`${integrations.chores.url}/api/summary`}else if(service==='calendar'){if(!integrations.calendar.icsUrl)throw new Error('Calendar is not configured');target=integrations.calendar.icsUrl}else if(integrations.arrs[service]){const config=integrations.arrs[service];if(!config.url||!config.apiKey)throw new Error(`${service} is not configured`);target=`${config.url}/api/v3/system/status`;headers['X-Api-Key']=config.apiKey}else throw new Error('Unknown integration');const response=await fetch(target,{headers,redirect:service==='vikunja'?'manual':'follow',signal:AbortSignal.timeout(8000)});if(service==='vikunja'&&!response.ok){const detail=response.status===401?'Vikunja rejected the API token (401). Paste a current API token—not a password.':response.status>=300&&response.status<400?'Vikunja redirected the API request. Check the saved Vikunja URL.':`Vikunja API returned ${response.status}.`;return send(res,502,{ok:false,status:response.status,error:detail})}return send(res,response.ok?200:502,{ok:response.ok,status:response.status,...(!response.ok?{error:`${service} returned ${response.status}`}:{})})}catch(error){const reason=error?.cause?.code||error.message||'Connection failed';return send(res,502,{error:`Could not reach ${service}: ${reason}`})}
 }
 
