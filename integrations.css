@@ -93,6 +93,13 @@
 .priority-badge { padding: 3px 7px; border-radius: 12px; font-size: 8px; font-weight: 700; }
 .priority-low { background: #e6f1eb; color: #39745b; }.priority-medium { background: #fff1ce; color: #926915; }.priority-high { background: #f9dfd7; color: #b65342; }.priority-urgent { background: #eedde8; color: #923a73; }
 .task-card.overdue { border-left: 3px solid #c95045; }
+.vikunja-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.vikunja-column { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: #f7f8f5; }
+.vikunja-column > header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.vikunja-column > header h3 { margin: 0; font-size: 12px; }
+.vikunja-column > header span { min-width: 22px; padding: 3px 7px; border-radius: 12px; background: #e5eae5; color: var(--muted); font-size: 9px; text-align: center; }
+.vikunja-column-cards { display: grid; gap: 8px; }
+@media (max-width: 700px) { .vikunja-board { grid-template-columns: 1fr; } }
 .review-link { color: var(--green); font-size: 9px; font-weight: 700; }
 .backup-actions { display: flex; gap: 8px; margin: 12px 0; }
 .backup-upload { position: relative; overflow: hidden; }
