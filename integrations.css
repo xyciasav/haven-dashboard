@@ -99,6 +99,7 @@
 .vikunja-column > header h3 { margin: 0; font-size: 12px; }
 .vikunja-column > header span { min-width: 22px; padding: 3px 7px; border-radius: 12px; background: #e5eae5; color: var(--muted); font-size: 9px; text-align: center; }
 .vikunja-column-cards { display: grid; gap: 8px; }
+.vikunja-diagnostic { grid-column: 1 / -1; padding: 10px 12px; border-radius: 10px; background: #fff4d8; color: #7c5b15; font-size: 10px; }
 @media (max-width: 700px) { .vikunja-board { grid-template-columns: 1fr; } }
 .review-link { color: var(--green); font-size: 9px; font-weight: 700; }
 .backup-actions { display: flex; gap: 8px; margin: 12px 0; }
