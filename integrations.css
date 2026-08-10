@@ -127,6 +127,10 @@
 .sentinel-widget .eyebrow,.sentinel-widget p { color: #b9c5cc; }
 .sentinel-arrow { font-size: 28px; }
 .integration-unavailable { opacity: .75; }
+.status-pill { border: 0; cursor: pointer; font-weight: 400; }
+.status-pill b { font-weight: 500; }
+.status-pill.degraded { background: #f6dfda; color: #a2493c; }
+.status-pill.degraded span { background: #d45f4f; }
 @media (max-width: 700px) { .daily-toolbar,.daily-add { flex-wrap: wrap; }.daily-add input[name="title"] { flex-basis: 100%; }.daily-add .primary-button { flex: 1; }.whisker-details { grid-template-columns: 1fr; } }
 .review-link { color: var(--green); font-size: 9px; font-weight: 700; }
 .backup-actions { display: flex; gap: 8px; margin: 12px 0; }

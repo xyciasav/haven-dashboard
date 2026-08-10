@@ -14,14 +14,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=0.8.0" />
-  <link rel="stylesheet" href="settings.css?v=0.8.0" />
-  <link rel="stylesheet" href="security.css?v=0.8.0" />
-  <link rel="stylesheet" href="version.css?v=0.8.0" />
-  <link rel="stylesheet" href="keycloak.css?v=0.8.0" />
-  <link rel="stylesheet" href="recovery.css?v=0.8.0" />
-  <link rel="stylesheet" href="app-manager.css?v=0.8.0" />
-  <link rel="stylesheet" href="integrations.css?v=0.8.0" />
+  <link rel="stylesheet" href="styles.css?v=0.8.1" />
+  <link rel="stylesheet" href="settings.css?v=0.8.1" />
+  <link rel="stylesheet" href="security.css?v=0.8.1" />
+  <link rel="stylesheet" href="version.css?v=0.8.1" />
+  <link rel="stylesheet" href="keycloak.css?v=0.8.1" />
+  <link rel="stylesheet" href="recovery.css?v=0.8.1" />
+  <link rel="stylesheet" href="app-manager.css?v=0.8.1" />
+  <link rel="stylesheet" href="integrations.css?v=0.8.1" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -38,7 +38,7 @@
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.8.0</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.8.1</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
@@ -65,7 +65,7 @@
         <label class="search-box"><span data-icon="search"></span><input id="search" placeholder="Search apps, devices, anything..." /><kbd>⌘ K</kbd></label>
         <div class="top-actions">
           <button id="install-app" class="install-button hidden">Install app</button>
-          <div class="status-pill"><span></span> All systems operational</div>
+          <button class="status-pill" id="sentinel-status" type="button"><span></span><b>Checking Sentinel…</b></button>
           <button class="icon-button" id="notifications-button" aria-label="Notifications" aria-expanded="false"><span data-icon="bell"></span><i id="notification-dot"></i></button>
           <span class="avatar top-avatar">ML</span>
         </div>
@@ -99,7 +99,6 @@
           <section class="card daily-widget dashboard-widget" data-widget="daily-tasks" draggable="false"><div class="section-heading"><div><p class="eyebrow">TODAY</p><h2>Daily plan</h2></div><button class="text-button" data-page-target="daily">Open planner <span>→</span></button></div><div id="daily-widget-list" class="daily-widget-list"><div class="integration-empty">Add today’s tasks in Daily Planner.</div></div></section>
           <section class="card dinner-widget dashboard-widget" data-widget="shelf-life" draggable="false" id="shelf-life-widget"><div class="section-heading"><div><p class="eyebrow">SHELF LIFE</p><h2>Tonight’s dinner</h2></div><button class="text-button" id="shelf-life-open">Open <span>→</span></button></div><div id="shelf-life-dinner" class="dinner-content"><div class="integration-empty">Connect Shelf Life in Integrations.</div></div></section>
           <section class="card whisker-widget dashboard-widget" data-widget="whisker" draggable="false" id="whisker-widget"><div class="section-heading"><div><p class="eyebrow">PET CARE</p><h2>Whisker</h2></div><span class="status-check" id="whisker-check">—</span></div><div id="whisker-status" class="whisker-status"><div class="integration-empty">Choose the litter-box entity in Integrations.</div></div></section>
-          <section class="card sentinel-widget dashboard-widget" data-widget="sentinel" draggable="false" data-external-url="http://10.0.0.231:8091"><div><p class="eyebrow">SENTINEL</p><h2>Open Sentinel</h2><p>Monitoring and system status</p></div><span class="sentinel-arrow">→</span></section>
           <section class="section-block dashboard-widget widget-wide" data-widget="applications" draggable="false">
           <div class="section-heading"><div><h2>Your applications</h2><p>Quick access to your favorite services</p></div><button class="text-button" data-page-target="apps">View all <span>→</span></button></div>
           <div class="app-grid" id="favorite-apps"></div>
@@ -136,6 +135,6 @@
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
-  <script type="module" src="/app.js?v=0.8.0"></script>
+  <script type="module" src="/app.js?v=0.8.1"></script>
 </body>
 </html>
