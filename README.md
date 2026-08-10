@@ -1,8 +1,8 @@
 # Haven
 
-Current release: **v0.7.3** · Docker image: `haven-dashboard:0.7.3`
+Current release: **v0.8.0** · Docker image: `haven-dashboard:0.8.0`
 
-A calm, self-hosted home dashboard inspired by Organizr: a user-managed application launcher, live weather, Plex activity, Home Assistant controls and calendars, arr integrations, and Keycloak authentication.
+A calm, self-hosted home dashboard inspired by Organizr: a user-managed application launcher, daily planning, live weather, Plex activity, Home Assistant controls and calendars, household integrations, and Keycloak authentication.
 
 ## Run it
 
@@ -43,6 +43,8 @@ Display preferences and application URLs are stored separately in each phone's b
 Open Haven's **Integrations** tab while signed in. The first authenticated Keycloak user becomes the integration owner and can save without repeatedly entering `HAVEN_SETUP_TOKEN`; the token remains available as a recovery key.
 
 - **Plex:** server URL and Plex token; Haven shows recently added library items.
+- **Shelf Life:** shared server URL and optional API key; Haven shows tonight's scheduled dinner.
+- **Whisker:** choose a Home Assistant status entity, or let Haven discover a Whisker/Litter-Robot entity automatically.
 - **Home Assistant:** server URL, long-lived access token, optional `calendar.*` entity ID, and user-defined quick actions. Haven reads live entity state, proxies control actions, and keeps the token on the server. Portainer environment values remain supported as defaults.
 - **Vikunja:** server URL and API token; Haven shows incomplete tasks assigned to the token owner. Create the token in Vikunja under Settings → API Tokens.
 - **Chore app:** server URL for the read-only FastAPI service; Haven shows pending chores and reward requests and links back to the app for review.

@@ -101,6 +101,33 @@
 .vikunja-column-cards { display: grid; gap: 8px; }
 .vikunja-diagnostic { grid-column: 1 / -1; padding: 10px 12px; border-radius: 10px; background: #fff4d8; color: #7c5b15; font-size: 10px; }
 @media (max-width: 700px) { .vikunja-board { grid-template-columns: 1fr; } }
+.daily-widget,.dinner-widget,.whisker-widget,.sentinel-widget { padding: 20px; }
+.daily-widget-list,.daily-task-list { display: grid; gap: 8px; margin-top: 14px; }
+.daily-task { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.daily-task.done { opacity: .55; }
+.daily-task.done strong { text-decoration: line-through; }
+.daily-task > span { display: grid; gap: 2px; min-width: 0; flex: 1; }
+.daily-task strong { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.daily-task small { color: var(--muted); font-size: 9px; }
+.daily-check { width: 24px; height: 24px; flex: 0 0 auto; border: 1px solid #cbd3cb; border-radius: 50%; background: #f8faf7; color: var(--green); cursor: pointer; font-weight: 700; }
+.daily-delete { border: 0; background: transparent; color: #b06a60; cursor: pointer; font-size: 18px; }
+.daily-planner { max-width: 850px; }
+.daily-toolbar,.daily-add { display: flex; gap: 8px; margin-bottom: 14px; }
+.daily-toolbar input,.daily-add input { min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+.daily-add input[name="title"] { flex: 1; }
+.daily-empty { padding: 42px 20px; }
+.dinner-content,.whisker-status { display: grid; gap: 6px; margin-top: 20px; }
+.dinner-content > strong,.whisker-status > strong { font: 600 21px 'Manrope'; }
+.dinner-content p,.whisker-status > small,.sentinel-widget p { margin: 0; color: var(--muted); font-size: 10px; }
+.whisker-details { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-top: 8px; }
+.whisker-details span { display: grid; gap: 2px; padding: 8px; border-radius: 8px; background: #f4f6f2; color: var(--muted); font-size: 8px; text-transform: capitalize; }
+.whisker-details b { color: var(--ink); font-size: 11px; }
+.sentinel-widget { display: flex; align-items: center; justify-content: space-between; min-height: 130px; background: var(--navy); color: #fff; cursor: pointer; }
+.sentinel-widget h2 { margin: 5px 0; font: 600 19px 'Manrope'; }
+.sentinel-widget .eyebrow,.sentinel-widget p { color: #b9c5cc; }
+.sentinel-arrow { font-size: 28px; }
+.integration-unavailable { opacity: .75; }
+@media (max-width: 700px) { .daily-toolbar,.daily-add { flex-wrap: wrap; }.daily-add input[name="title"] { flex-basis: 100%; }.daily-add .primary-button { flex: 1; }.whisker-details { grid-template-columns: 1fr; } }
 .review-link { color: var(--green); font-size: 9px; font-weight: 700; }
 .backup-actions { display: flex; gap: 8px; margin: 12px 0; }
 .backup-upload { position: relative; overflow: hidden; }
