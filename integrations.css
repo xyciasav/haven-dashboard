@@ -113,7 +113,7 @@
 .daily-delete { border: 0; background: transparent; color: #b06a60; cursor: pointer; font-size: 18px; }
 .daily-planner { max-width: 850px; }
 .daily-toolbar,.daily-add { display: flex; gap: 8px; margin-bottom: 14px; }
-.daily-toolbar input,.daily-add input { min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+.daily-toolbar input,.daily-add input,.daily-add select { min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
 .daily-add input[name="title"] { flex: 1; }
 .daily-empty { padding: 42px 20px; }
 .dinner-content,.whisker-status { display: grid; gap: 6px; margin-top: 20px; }
