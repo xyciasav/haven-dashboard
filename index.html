@@ -14,14 +14,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=0.8.3" />
-  <link rel="stylesheet" href="settings.css?v=0.8.3" />
-  <link rel="stylesheet" href="security.css?v=0.8.3" />
-  <link rel="stylesheet" href="version.css?v=0.8.3" />
-  <link rel="stylesheet" href="keycloak.css?v=0.8.3" />
-  <link rel="stylesheet" href="recovery.css?v=0.8.3" />
-  <link rel="stylesheet" href="app-manager.css?v=0.8.3" />
-  <link rel="stylesheet" href="integrations.css?v=0.8.3" />
+  <link rel="stylesheet" href="styles.css?v=0.9.0" />
+  <link rel="stylesheet" href="settings.css?v=0.9.0" />
+  <link rel="stylesheet" href="security.css?v=0.9.0" />
+  <link rel="stylesheet" href="version.css?v=0.9.0" />
+  <link rel="stylesheet" href="keycloak.css?v=0.9.0" />
+  <link rel="stylesheet" href="recovery.css?v=0.9.0" />
+  <link rel="stylesheet" href="app-manager.css?v=0.9.0" />
+  <link rel="stylesheet" href="integrations.css?v=0.9.0" />
 </head>
 <body>
   <div id="login-screen" class="login-screen hidden">
@@ -38,7 +38,7 @@
 
   <div id="app" class="app-shell hidden">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.8.3</small></div>
+      <div class="brand"><div class="brand-mark">H</div><span>haven</span><small class="version-badge" id="version-badge">v0.9.0</small></div>
       <nav class="nav-list" aria-label="Primary navigation">
         <button class="nav-item active" data-page="home" aria-label="Home"><span data-icon="grid"></span><span>Home</span></button>
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
@@ -79,7 +79,7 @@
         </div>
 
         <div class="dashboard-widgets" id="dashboard-widgets">
-          <section class="card weather-card dashboard-widget" data-widget="weather" draggable="false">
+          <section class="card weather-card dashboard-widget interactive-widget" data-widget="weather" data-open-detail="weather" draggable="false" tabindex="0" role="button" aria-label="Open detailed weather">
             <div class="weather-main">
               <div><div class="weather-place"><span data-icon="pin"></span> Loading weather…</div><div class="temperature">—</div><div class="condition">Connecting to weather service</div></div>
               <div class="sun-art"><div class="sun"></div><div class="cloud cloud-one"></div><div class="cloud cloud-two"></div></div>
@@ -90,10 +90,10 @@
           <section class="card home-status-card dashboard-widget" data-widget="home-status" draggable="false">
             <div class="card-heading"><div><p class="eyebrow">HOME STATUS</p><h2 id="home-status-title">Connecting to Home Assistant…</h2></div><div class="status-check" id="home-status-check">…</div></div>
             <div class="home-stats">
-              <div><span class="stat-icon coral" data-icon="thermometer"></span><p>Temperature</p><strong id="ha-temperature">—</strong></div>
-              <div><span class="stat-icon blue" data-icon="droplet"></span><p>Humidity</p><strong id="ha-humidity">—</strong></div>
-              <div><span class="stat-icon violet" data-icon="lightbulb"></span><p>Lights on</p><strong id="ha-lights">—</strong></div>
-              <div><span class="stat-icon green" data-icon="lock"></span><p>Locks</p><strong id="ha-locks">—</strong></div>
+              <button type="button" data-open-home="sensor"><span class="stat-icon coral" data-icon="thermometer"></span><p>Temperature</p><strong id="ha-temperature">—</strong></button>
+              <button type="button" data-open-home="sensor"><span class="stat-icon blue" data-icon="droplet"></span><p>Humidity</p><strong id="ha-humidity">—</strong></button>
+              <button type="button" data-open-home="light"><span class="stat-icon violet" data-icon="lightbulb"></span><p>Lights on</p><strong id="ha-lights">—</strong></button>
+              <button type="button" data-open-home="lock"><span class="stat-icon green" data-icon="lock"></span><p>Locks</p><strong id="ha-locks">—</strong></button>
             </div>
           </section>
           <section class="card daily-widget dashboard-widget" data-widget="daily-tasks" draggable="false"><div class="section-heading"><div><p class="eyebrow">TODAY</p><h2>Daily plan</h2></div><button class="text-button" data-page-target="daily">Open planner <span>→</span></button></div><div id="daily-widget-list" class="daily-widget-list"><div class="integration-empty">Add today’s tasks in Daily Planner.</div></div></section>
@@ -124,6 +124,7 @@
       <section id="page-daily" class="page"><div class="page-title"><p class="eyebrow">ONE DAY AT A TIME</p><h1>Daily Planner</h1><p>Small things that need to happen today—separate from your calendar.</p></div><section class="daily-planner"><div class="daily-toolbar"><button class="outline-button" id="daily-prev" aria-label="Previous day">←</button><input id="daily-date" type="date"><button class="outline-button" id="daily-next" aria-label="Next day">→</button><button class="outline-button" id="daily-today">Today</button></div><form id="daily-task-form" class="daily-add"><input name="title" maxlength="160" placeholder="Take medicine, go to the post office…" required><input name="time" type="time"><select name="recurrence" aria-label="Repeat task"><option value="none">Does not repeat</option><option value="daily">Every day</option><option value="weekdays">Weekdays</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select><button class="primary-button" type="submit">Add task</button></form><div id="daily-task-list" class="daily-task-list"></div></section></section>
       <section id="page-integrations" class="page"><div class="page-title"><p class="eyebrow">CONNECTIONS</p><h1>Integrations</h1><p>Connect Plex, calendars, and your automation services.</p></div><div id="integrations-content"></div></section>
       <section id="page-settings" class="page"><div class="page-title"><p class="eyebrow">CONFIGURATION</p><h1>Settings</h1><p>Personalize Haven and manage authentication.</p></div><div id="settings-content"></div></section>
+      <div class="detail-backdrop hidden" id="detail-backdrop"></div><aside class="detail-drawer hidden" id="detail-drawer" aria-live="polite"><header><div><p class="eyebrow" id="detail-eyebrow">DETAILS</p><h2 id="detail-title">Dashboard details</h2></div><button type="button" id="detail-close" aria-label="Close details">×</button></header><div id="detail-content"></div></aside>
     </main>
     <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
       <button class="active" data-page="home"><span data-icon="grid"></span><small>Home</small></button>
@@ -135,6 +136,6 @@
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
-  <script type="module" src="/app.js?v=0.8.3"></script>
+  <script type="module" src="/app.js?v=0.9.0"></script>
 </body>
 </html>

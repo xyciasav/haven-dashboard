@@ -43,14 +43,18 @@
 .dashboard-widget.widget-small { grid-column: span 1; }
 .dashboard-widget.widget-medium { grid-column: span 2; }
 .dashboard-widget.widget-wide { grid-column: 1 / -1; }
+.dashboard-widget.widget-height-compact { max-height: 190px; overflow: auto; }
+.dashboard-widget.widget-height-normal { min-height: 0; }
+.dashboard-widget.widget-height-tall { min-height: 390px; overflow: auto; }
 .dashboard-widget.customizing { cursor: grab; outline: 2px dashed #789486; outline-offset: 4px; }
 .dashboard-widget.dragging { opacity: .45; }
 .dashboard-widget.user-hidden { display: none !important; }
 .widget-editor { position: fixed; z-index: 45; top: 84px; right: 3%; width: min(430px,calc(100vw - 28px)); max-height: calc(100vh - 110px); overflow: auto; padding: 20px; border: 1px solid var(--line); border-radius: 15px; background: #fff; box-shadow: 0 22px 65px rgba(25,40,34,.2); }
 .widget-editor > p { color: var(--muted); font-size: 10px; line-height: 1.5; }
-.widget-editor-row { display: grid; grid-template-columns: minmax(0,1fr) auto auto auto; align-items: center; gap: 7px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.widget-editor-row { display: grid; grid-template-columns: minmax(105px,1fr) auto minmax(80px,auto) minmax(80px,auto) auto; align-items: end; gap: 7px; padding: 9px 0; border-bottom: 1px solid var(--line); }
 .widget-editor-row strong { font-size: 11px; }
 .widget-editor-row button, .widget-editor-row select { border: 1px solid var(--line); border-radius: 7px; background: #fafbf9; padding: 6px; font-size: 9px; }
+.widget-editor-row label { display: grid; gap: 3px; color: var(--muted); font-size: 8px; }
 .vikunja-map { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 14px; padding: 12px; border: 1px solid #d9e4dc; border-radius: 10px; background: #f5f9f6; font-size: 10px; }
 .vikunja-map div { display: flex; gap: 6px; }
 .vikunja-map button { border: 1px solid var(--line); border-radius: 7px; background: #fff; padding: 6px 9px; cursor: pointer; }
@@ -74,6 +78,47 @@
 #favorite-apps .app-tile { min-height: 142px; padding: 20px 12px 16px; flex-direction: column; justify-content: center; text-align: center; gap: 11px; }
 #favorite-apps .app-logo { width: 68px; height: 68px; border-radius: 16px; font-size: 25px; }
 #favorite-apps .app-logo img { padding: 8px; }
+
+/* App-launcher icons intentionally float without a second card around them. */
+#favorite-apps, #all-apps { grid-template-columns: repeat(auto-fill,minmax(92px,1fr)); gap: 20px 14px; }
+#favorite-apps .app-tile, #all-apps .app-tile { min-height: 106px; padding: 8px 4px; flex-direction: column; justify-content: flex-start; gap: 9px; border: 0; background: transparent; box-shadow: none; text-align: center; }
+#favorite-apps .app-tile:hover, #all-apps .app-tile:hover { transform: translateY(-3px); border: 0; box-shadow: none; }
+#favorite-apps .app-logo, #all-apps .app-logo { width: 68px; height: 68px; border-radius: 17px; font-size: 24px; box-shadow: 0 7px 18px rgba(35,52,45,.13); }
+#favorite-apps .app-meta small, #all-apps .app-meta small, #favorite-apps .online-dot, #all-apps .online-dot { display: none; }
+#favorite-apps .app-meta strong, #all-apps .app-meta strong { font-size: 11px; line-height: 1.25; }
+#all-apps .app-tile-wrap { position: relative; min-width: 0; }
+#all-apps .favorite-app-button { position: absolute; top: 0; right: calc(50% - 43px); z-index: 2; }
+
+.interactive-widget { cursor: pointer; transition: transform .18s,box-shadow .18s; }
+.interactive-widget:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(27,45,37,.14); }
+.home-stats button { appearance: none; border: 0; border-radius: 10px; padding: 7px 3px; background: transparent; color: inherit; cursor: pointer; text-align: center; }
+.home-stats button:hover { background: #f4f6f2; }
+.home-stats button p { font-size: 9px; color: #8c9591; margin: 0 0 3px; }
+.home-stats button strong { font-size: 12px; }
+.movie { appearance: none; width: 100%; padding: 5px; border: 0; border-radius: 9px; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.movie:hover { background: #e9ede7; }
+.detail-backdrop { position: fixed; inset: 0; z-index: 54; background: rgba(19,31,26,.34); backdrop-filter: blur(2px); }
+.detail-drawer { position: fixed; z-index: 55; inset: 0 0 0 auto; width: min(520px,100vw); padding: 26px; overflow: auto; background: #fbfcf9; box-shadow: -20px 0 60px rgba(20,35,28,.2); }
+.detail-drawer > header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.detail-drawer h2 { margin: 0; font: 600 24px 'Manrope'; }
+.detail-drawer > header button { border: 0; background: transparent; color: var(--muted); font-size: 28px; cursor: pointer; }
+#detail-content { padding-top: 20px; }
+.weather-detail-summary { display: flex; align-items: center; gap: 20px; padding: 22px; border-radius: 15px; background: var(--navy); color: #fff; }
+.weather-detail-summary > strong { font: 600 54px 'Manrope'; }
+.weather-detail-summary h3,.weather-detail-summary p { margin: 3px 0; }
+.weather-detail-summary p { color: #cbd5dc; font-size: 11px; }
+.weather-days { display: grid; margin-top: 16px; }
+.weather-days article { display: grid; grid-template-columns: 42px minmax(0,1fr) auto auto; align-items: center; gap: 10px; padding: 14px 5px; border-bottom: 1px solid var(--line); }
+.weather-days span,.weather-days em { color: var(--muted); font-size: 10px; font-style: normal; }
+.weather-days b small { color: var(--muted); }
+.detail-entities { display: grid; gap: 8px; }
+.detail-entities .entity-card { grid-template-columns: 34px minmax(0,1fr) auto; }
+.home-detail-summary { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+.home-detail-summary article { display: grid; justify-items: center; gap: 7px; padding: 22px; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
+.home-detail-summary small { color: var(--muted); }
+.home-detail-summary strong { font: 600 24px 'Manrope'; }
+.detail-control-link { margin-top: 18px; }
+@media(max-width:760px){.widget-editor-row{grid-template-columns:1fr auto;align-items:center}.widget-editor-row label{grid-column:span 1}.widget-editor-row>span{grid-column:2}.dashboard-widget.widget-height-tall{min-height:320px}.detail-drawer{top:64px;border-radius:20px 20px 0 0}.weather-days article{grid-template-columns:38px minmax(0,1fr) auto}.weather-days em{display:none}}
 #favorite-apps .app-meta small { display: none; }
 #favorite-apps .app-meta strong { font-size: 13px; margin: 0; }
 .app-tile-wrap { position: relative; min-width: 0; }
