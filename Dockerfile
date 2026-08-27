@@ -1,11 +1,11 @@
 FROM node:22-alpine
 
-ARG HAVEN_VERSION=0.10.0
+ARG HAVEN_VERSION=0.10.1
 ENV HAVEN_VERSION=$HAVEN_VERSION
 
 WORKDIR /app
 COPY server.js /app/server.js
-COPY index.html styles.css settings.css security.css version.css keycloak.css recovery.css app-manager.css integrations.css app.js manifest.webmanifest service-worker.js /opt/haven/site/
+COPY index.html styles.css settings.css security.css version.css keycloak.css recovery.css app-manager.css integrations.css event.css app.js manifest.webmanifest service-worker.js /opt/haven/site/
 COPY icons /opt/haven/site/icons
 COPY vendor /opt/haven/site/vendor
 COPY docker-entrypoint.d/40-haven-config.sh /usr/local/bin/haven-entrypoint
