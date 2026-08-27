@@ -138,7 +138,7 @@ async function calendarEvents(req,res){if(!await requireAuth(req,res))return;if(
 
 async function testIntegration(req,res,url){
   const identity=await authenticatedIdentity(req);if(!identity)return send(res,401,{error:'Keycloak authentication required'});const service=String(url.searchParams.get('service')||'');
-  if(service==='eventbrite'){try{const data=await eventbriteSnapshot(true);return send(res,200,{ok:true,event:data.event,ticketsSold:data.ticketsSold})}catch(error){return send(res,502,{error:error.message||'Eventbrite connection failed'})}}
+  if(service==='eventbrite'){try{const data=await eventbriteSnapshot(true);return send(res,200,{ok:true,event:data.event,ticketsSold:data.ticketsSold})}catch(error){return send(res,200,{ok:false,error:error.message||'Eventbrite connection failed'})}}
   if(service==='immich'){try{const config=personalIntegration(identity,'immich');if(!config.url||!config.apiKey)throw new Error('Immich URL or API key is missing for this user');await immichAssets(config);return send(res,200,{ok:true})}catch(error){return send(res,502,{error:error.message||'Immich connection failed'})}}
   if(service==='vikunja'){
     let target='not resolved';

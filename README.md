@@ -1,6 +1,6 @@
 # Haven
 
-Current release: **v0.10.2** · Docker image: `haven-dashboard:0.10.2`
+Current release: **v0.10.3** · Docker image: `haven-dashboard:0.10.3`
 
 A calm, self-hosted home dashboard inspired by Organizr: a user-managed application launcher, daily planning, live weather, Plex activity, Home Assistant controls and calendars, household integrations, and Keycloak authentication.
 
