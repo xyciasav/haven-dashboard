@@ -47,6 +47,7 @@ Open Haven's **Integrations** tab while signed in. The first authenticated Keycl
 - **Whisker:** choose a Home Assistant status entity, or let Haven discover a Whisker/Litter-Robot entity automatically.
 - **Home Assistant:** server URL, long-lived access token, optional `calendar.*` entity ID, and user-defined quick actions. Haven reads live entity state, proxies control actions, and keeps the token on the server. Portainer environment values remain supported as defaults.
 - **Vikunja:** server URL and API token; Haven shows incomplete tasks assigned to the token owner. Create the token in Vikunja under Settings → API Tokens.
+- **Night of the Living Loud:** a dedicated shared event command center backed by the Vikunja project of the same name. It summarizes completion, urgent work, seven-day deadlines, board status, and team workload; tickets, sponsors, and committed revenue are shared Haven metrics.
 - **Chore app:** server URL for the read-only FastAPI service; Haven shows pending chores and reward requests and links back to the app for review.
 - **Calendar:** a private ICS subscription URL from Google Calendar, Apple Calendar, Outlook, or another ICS provider.
 - **Sonarr, Radarr, Lidarr, and Readarr:** server URL and API key, with connection tests.
