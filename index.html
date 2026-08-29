@@ -23,8 +23,16 @@
   <link rel="stylesheet" href="app-manager.css?v=0.10.5" />
   <link rel="stylesheet" href="integrations.css?v=0.10.5" />
   <link rel="stylesheet" href="event.css?v=0.10.5" />
+  <link rel="stylesheet" href="responsibilities.css?v=0.10.5" />
+  <link rel="stylesheet" href="command-palette.css?v=0.10.5" />
+  <link rel="stylesheet" href="resilience.css?v=0.10.5" />
+  <link rel="stylesheet" href="diagnostics.css?v=0.10.5" />
+  <link rel="stylesheet" href="attention.css?v=0.10.5" />
+  <link rel="stylesheet" href="display-settings.css?v=0.10.5" />
+  <link rel="stylesheet" href="onboarding.css?v=0.10.5" />
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a><span class="display-mode-indicator hidden" id="display-mode-indicator">Press Esc to exit display mode</span>
   <div id="login-screen" class="login-screen hidden">
     <div class="login-card">
       <div class="brand-mark large">H</div>
@@ -46,10 +54,12 @@
         <button class="nav-item" data-page="home-control" aria-label="Home control"><span data-icon="home"></span><span>Home control</span></button>
         <button class="nav-item" data-page="calendar" aria-label="Calendar"><span data-icon="calendar"></span><span>Calendar</span></button>
         <button class="nav-item" data-page="daily" aria-label="Daily planner"><span data-icon="sliders"></span><span>Daily Planner</span></button>
+        <button class="nav-item" data-page="responsibilities" aria-label="Household responsibilities"><span data-icon="checkCircle"></span><span>Responsibilities</span></button>
         <button class="nav-item" data-page="living-loud" aria-label="Night of the Living Loud"><span data-icon="sparkles"></span><span>Living Loud</span></button>
         <button class="nav-item" data-page="integrations" aria-label="Integrations"><span data-icon="server"></span><span>Integrations</span></button>
       </nav>
       <div class="sidebar-bottom">
+        <button class="nav-item" data-page="diagnostics"><span data-icon="shield"></span><span>Diagnostics</span></button>
         <button class="nav-item" data-page="settings"><span data-icon="settings"></span><span>Settings</span></button>
         <button class="nav-item" data-logout><span data-icon="logOut"></span><span>Sign out</span></button>
         <button class="profile-mini" id="profile-button">
@@ -61,7 +71,7 @@
     </aside>
     <button class="sidebar-backdrop" id="sidebar-backdrop" aria-label="Close menu"></button>
 
-    <main class="main-content">
+    <main class="main-content" id="main-content" tabindex="-1">
       <header class="topbar">
         <button class="mobile-menu" id="mobile-menu" aria-label="Open menu"><span data-icon="menu"></span></button>
         <label class="search-box"><span data-icon="search"></span><input id="search" placeholder="Search apps, devices, anything..." /><kbd>⌘ K</kbd></label>
@@ -81,6 +91,7 @@
         </div>
 
         <div class="dashboard-widgets" id="dashboard-widgets">
+          <section class="card attention-card dashboard-widget widget-wide" data-widget="attention" draggable="false"><div class="attention-head"><span id="attention-count">✓</span><div><p class="eyebrow">NEEDS ATTENTION</p><h2 id="attention-title">Checking the household</h2></div></div><div class="attention-list" id="attention-list"><div class="attention-calm"><span>✓</span><p>Checking responsibilities and household services.</p></div></div></section>
           <section class="card weather-card dashboard-widget interactive-widget" data-widget="weather" data-open-detail="weather" draggable="false" tabindex="0" role="button" aria-label="Open detailed weather">
             <div class="weather-main">
               <div><div class="weather-place"><span data-icon="pin"></span> Loading weather…</div><div class="temperature">—</div><div class="condition">Connecting to weather service</div></div>
@@ -99,6 +110,7 @@
             </div>
           </section>
           <section class="card daily-widget dashboard-widget" data-widget="daily-tasks" draggable="false"><div class="section-heading"><div><p class="eyebrow">TODAY</p><h2>Daily plan</h2></div><button class="text-button" data-page-target="daily">Open planner <span>→</span></button></div><div id="daily-widget-list" class="daily-widget-list"><div class="integration-empty">Add today’s tasks in Daily Planner.</div></div></section>
+          <section class="card responsibility-widget dashboard-widget" data-widget="responsibilities" draggable="false"><div class="section-heading"><div><p class="eyebrow">HOUSEHOLD</p><h2>Responsibilities</h2></div><button class="text-button" data-page-target="responsibilities"><span id="responsibilities-widget-count">0</span> due <span>→</span></button></div><div id="responsibilities-widget-list" class="responsibility-widget-list"><div class="integration-empty">Loading household responsibilities…</div></div></section>
           <section class="card dinner-widget dashboard-widget" data-widget="shelf-life" draggable="false" id="shelf-life-widget"><div class="section-heading"><div><p class="eyebrow">SHELF LIFE</p><h2>Tonight’s dinner</h2></div><button class="text-button" id="shelf-life-open">Open <span>→</span></button></div><div id="shelf-life-dinner" class="dinner-content"><div class="integration-empty">Connect Shelf Life in Integrations.</div></div></section>
           <section class="card whisker-widget dashboard-widget" data-widget="whisker" draggable="false" id="whisker-widget"><div class="section-heading"><div><p class="eyebrow">PET CARE</p><h2>Whisker</h2></div><span class="status-check" id="whisker-check">—</span></div><div id="whisker-status" class="whisker-status"><div class="integration-empty">Choose the litter-box entity in Integrations.</div></div></section>
           <section class="section-block dashboard-widget widget-wide" data-widget="applications" draggable="false">
@@ -124,6 +136,7 @@
       <section id="page-home-control" class="page"><div class="page-title"><p class="eyebrow">HOME ASSISTANT</p><h1>Your home</h1><p>Live entities and controls from Home Assistant.</p></div><div class="entity-toolbar"><input id="entity-search" type="search" placeholder="Search lights, scenes, switches, automations…"><select id="entity-domain"><option value="">All types</option><option value="light">Lights</option><option value="switch">Switches</option><option value="lock">Locks</option><option value="cover">Covers</option><option value="scene">Scenes</option><option value="script">Scripts</option><option value="automation">Automations</option></select></div><div id="home-control-content"><div class="empty-state"><span data-icon="home"></span><h2>Loading Home Assistant</h2><p>Fetching your devices, scenes, and automations.</p></div></div></section>
       <section id="page-calendar" class="page"><div class="page-title"><p class="eyebrow">UP NEXT</p><h1>Calendar</h1><p>Your month at a glance, with an agenda below.</p></div><div id="calendar-content" class="calendar-feed"><div class="empty-state"><span data-icon="calendar"></span><h2>Connect a calendar</h2><p>Add a Home Assistant calendar entity or ICS subscription in Integrations.</p><button class="primary-button" data-page-target="integrations">Configure calendar</button></div></div></section>
       <section id="page-daily" class="page"><div class="page-title"><p class="eyebrow">ONE DAY AT A TIME</p><h1>Daily Planner</h1><p>Small things that need to happen today—separate from your calendar.</p></div><section class="daily-planner"><div class="daily-toolbar"><button class="outline-button" id="daily-prev" aria-label="Previous day">←</button><input id="daily-date" type="date"><button class="outline-button" id="daily-next" aria-label="Next day">→</button><button class="outline-button" id="daily-today">Today</button></div><form id="daily-task-form" class="daily-add"><input name="title" maxlength="160" placeholder="Take medicine, go to the post office…" required><input name="time" type="time"><select name="recurrence" aria-label="Repeat task"><option value="none">Does not repeat</option><option value="daily">Every day</option><option value="weekdays">Weekdays</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select><button class="primary-button" type="submit">Add task</button></form><div id="daily-task-list" class="daily-task-list"></div></section></section>
+      <section id="page-responsibilities" class="page"><div class="page-title responsibility-page-title"><div><p class="eyebrow">SHARED OWNERSHIP</p><h1>Responsibilities</h1><p>Recurring work, home maintenance, and the load everyone carries.</p></div><button class="primary-button" id="add-responsibility" type="button">Add responsibility</button></div><div id="responsibilities-content"><div class="empty-state"><h2>Loading responsibilities</h2><p>Building the household view.</p></div></div></section>
       <section id="page-living-loud" class="page living-loud-page">
         <header class="loud-hero">
           <div><p class="eyebrow">RAGE FOR DEMOCRACY PRESENTS</p><h1>Night of the Living Loud</h1><p>Friday, October 30 · Shared production command center</p></div>
@@ -132,8 +145,11 @@
         <div id="loud-dashboard" class="loud-dashboard"><div class="empty-state"><span data-icon="sparkles"></span><h2>Loading the event machine</h2><p>Pulling live deadlines and ownership from Vikunja.</p></div></div>
       </section>
       <section id="page-integrations" class="page"><div class="page-title"><p class="eyebrow">CONNECTIONS</p><h1>Integrations</h1><p>Connect Plex, calendars, and your automation services.</p></div><div id="integrations-content"></div></section>
+      <section id="page-diagnostics" class="page"><div class="page-title"><p class="eyebrow">SYSTEM HEALTH</p><h1>Diagnostics</h1><p>Runtime health, integration readiness, stored data, and recent household changes.</p></div><div id="diagnostics-content"><div class="empty-state"><h2>Open diagnostics</h2><p>Haven will check the system when this page opens.</p></div></div></section>
       <section id="page-settings" class="page"><div class="page-title"><p class="eyebrow">CONFIGURATION</p><h1>Settings</h1><p>Personalize Haven and manage authentication.</p></div><div id="settings-content"></div></section>
       <div class="detail-backdrop hidden" id="detail-backdrop"></div><aside class="detail-drawer hidden" id="detail-drawer" aria-live="polite"><header><div><p class="eyebrow" id="detail-eyebrow">DETAILS</p><h2 id="detail-title">Dashboard details</h2></div><button type="button" id="detail-close" aria-label="Close details">×</button></header><div id="detail-content"></div></aside>
+      <aside class="responsibility-editor hidden" id="responsibility-editor" aria-label="Responsibility editor"><div class="notifications-heading"><div><p class="eyebrow">HOUSEHOLD WORK</p><h2 id="responsibility-editor-title">Add responsibility</h2></div><button type="button" id="responsibility-editor-close" aria-label="Close editor">×</button></div><form id="responsibility-form" class="responsibility-form"><input name="id" type="hidden"><label>Title<input name="title" maxlength="120" required placeholder="Replace HVAC filter"></label><label>Description<textarea name="description" maxlength="1000" placeholder="What good completion looks like"></textarea></label><div class="responsibility-form-grid"><label>Category<select name="category"><option value="cleaning">Cleaning</option><option value="maintenance">Maintenance</option><option value="pets">Pets</option><option value="errands">Errands</option><option value="finances">Finances</option><option value="administration">Home administration</option><option value="outdoors">Outdoors</option><option value="other">Other</option></select></label><label>Schedule<select name="schedule"><option value="once">Once</option><option value="daily">Daily</option><option value="weekdays">Weekdays</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="interval">Custom interval</option></select></label><label>Starts<input name="startDate" type="date" required></label><label>Repeat every (days)<input name="intervalDays" type="number" min="1" max="365" value="7"></label><label>Due window (days)<input name="dueWindowDays" type="number" min="0" max="30" value="0"></label><label>Effort<input name="effort" type="number" min="1" max="5" value="2"></label><label>Contribution points<input name="points" type="number" min="0" max="100" value="10"></label></div><label>Assigned people<input name="assignees" placeholder="Mike, Alex"></label><label class="toggle-label"><input name="rotate" type="checkbox"> Rotate ownership between assigned people</label><label>Checklist, one step per line<textarea name="checklist"></textarea></label><label>Supplies, one item per line<textarea name="supplies"></textarea></label><label class="toggle-label"><input name="verification" type="checkbox"> Require another adult to verify completion</label><label class="toggle-label"><input name="private" type="checkbox"> Private to assigned people</label><div class="form-actions"><button class="primary-button" type="submit">Save responsibility</button><button class="danger-button hidden" id="responsibility-delete" type="button">Delete</button></div></form></aside>
+      <div class="completion-dialog hidden" id="completion-dialog" role="dialog" aria-modal="true" aria-labelledby="completion-title"><form id="completion-form" class="completion-card"><p class="eyebrow">MARK COMPLETE</p><h2 id="completion-title">Complete responsibility</h2><p id="completion-description"></p><label>Completion note<textarea name="notes" maxlength="500" placeholder="Optional context, result, or follow-up"></textarea></label><label>Proof photo <span>optional · JPEG, PNG, or WebP · 2 MB max</span><input name="photo" type="file" accept="image/jpeg,image/png,image/webp"></label><div class="form-actions"><button class="text-button" id="completion-cancel" type="button">Cancel</button><button class="primary-button" type="submit">Mark complete</button></div></form></div>
     </main>
     <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
       <button class="active" data-page="home"><span data-icon="grid"></span><small>Home</small></button>
@@ -145,6 +161,8 @@
   </div>
 
   <div id="toast" class="toast"><span>✓</span><p></p></div>
+  <div id="connection-banner" class="connection-banner hidden" role="status">Haven is offline. Live controls are paused and cached information may be shown.</div>
+  <div id="command-palette" class="command-palette hidden"><button class="command-backdrop" id="command-backdrop" aria-label="Close command palette"></button><section class="command-dialog" role="dialog" aria-modal="true" aria-label="Search Haven"><label class="command-search"><span data-icon="search"></span><input id="command-input" type="search" placeholder="Search apps, controls, pages, responsibilities…" autocomplete="off"><button id="command-close" type="button">ESC</button></label><div class="command-results" id="command-results"></div><p class="command-hint">↑↓ navigate · Enter open or run · Esc close</p></section></div>
   <script type="module" src="/app.js?v=0.10.5"></script>
 </body>
 </html>

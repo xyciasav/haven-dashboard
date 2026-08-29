@@ -4,6 +4,8 @@ Current release: **v0.10.5** · Docker image: `haven-dashboard:0.10.5`
 
 A calm, self-hosted home dashboard inspired by Organizr: a user-managed application launcher, daily planning, live weather, Plex activity, Home Assistant controls and calendars, household integrations, and Keycloak authentication.
 
+Haven also includes native household responsibilities for adult-oriented recurring work and home maintenance. Responsibilities support individual, shared, and rotating ownership; due windows; effort and contribution points; streaks and workload balance; checklists and supplies; private items; completion notes and proof photos; second-adult verification; completion history; and a 30-day household contribution view. Contribution points measure momentum and workload rather than currency.
+
 ## Run it
 
 Haven has no frontend build step. The supported deployment is Docker Compose; for development, run the Node server with `PUBLIC_DIR` pointing to this folder and `DATA_DIR` pointing to a writable test folder.
@@ -50,6 +52,9 @@ Open Haven's **Integrations** tab while signed in. The first authenticated Keycl
 - **Night of the Living Loud:** a dedicated shared event command center backed by the Vikunja project of the same name. It summarizes completion, urgent work, seven-day deadlines, board status, and team workload; tickets, sponsors, and committed revenue are shared Haven metrics.
 - **Eventbrite:** event URL or ID and a private token; Haven syncs aggregate ticket sales, gross revenue, orders, check-ins, capacity, and ticket-type totals into the Living Loud dashboard without returning attendee personal data to the browser.
 - **Chore app:** server URL for the read-only FastAPI service; Haven shows pending chores and reward requests and links back to the app for review.
+- **Native responsibilities:** built directly into Haven. The external chore app can remain connected during migration and is not removed automatically.
+
+The Responsibilities page can import currently pending chores from the external chore app as one-time Haven responsibilities. Imports are explicit, deduplicated, and leave the source app unchanged. This supports a gradual migration instead of a risky cutover.
 - **Calendar:** a private ICS subscription URL from Google Calendar, Apple Calendar, Outlook, or another ICS provider.
 - **Sonarr, Radarr, Lidarr, and Readarr:** server URL and API key, with connection tests.
 
@@ -73,6 +78,31 @@ For a guaranteed authentication lockout recovery, set `HAVEN_AUTH_BYPASS=true` i
 
 The browser uses Authorization Code Flow with PKCE. The server independently validates the access token through Keycloak before accessing protected integration routes. Home Assistant credentials remain server-side in the container environment.
 
+Optional Keycloak realm roles can restrict household management: `haven-admin` and `haven-adult` can create and edit responsibilities, while `haven-member` and `haven-guest` can only complete visible work. Existing realms without any Haven-specific role retain adult access for backward compatibility.
+
+- `haven-admin`: adult access plus administrative recovery responsibilities.
+- `haven-adult`: manages shared apps, dashboard settings, integrations, responsibilities, verification, and backups.
+- `haven-member`: completes visible responsibilities and can run permitted home controls.
+- `haven-guest`: read-only household access; home-control actions are blocked.
+
+Shared changes and Home Assistant actions are written to Haven's bounded audit history. Diagnostics shows recent audit events only to adult roles.
+
+## Offline and dedicated displays
+
+Haven caches its application shell and stores selected user data in a user-scoped IndexedDB database. Weather has a clearly labeled public cache, responsibilities and daily tasks can fall back to their most recent local copy, and safe Daily Planner mutations queue while offline and sync after reconnection. Authentication tokens are not placed in the offline queue.
+
+Under **Settings → Display on this device**, each browser can choose comfortable or compact density, reduced motion, kiosk mode, or a larger wall-display mode. Press **Escape** to leave a dedicated-display mode.
+
 Haven bundles the official Keycloak JavaScript adapter (v26.2.4) inside its image, so login does not depend on a public CDN being reachable.
 
 For local HTTP access, Haven supplies a cryptographically secure UUID v4 implementation using `crypto.getRandomValues`, because browsers expose that primitive but restrict `crypto.randomUUID` to secure contexts. HTTPS uses the browser's native implementation and PKCE S256.
+
+## Development checks
+
+Haven keeps its zero-build frontend and uses Node's built-in test runner. Run the complete verification suite before deployment:
+
+```powershell
+npm run verify
+```
+
+The suite checks JavaScript syntax, recurrence and rotation behavior, contribution summaries, protected API behavior, runtime configuration secrecy, security headers, and static/API routing.

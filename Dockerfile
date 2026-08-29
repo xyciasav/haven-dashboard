@@ -5,7 +5,8 @@ ENV HAVEN_VERSION=$HAVEN_VERSION
 
 WORKDIR /app
 COPY server.js /app/server.js
-COPY index.html styles.css settings.css security.css version.css keycloak.css recovery.css app-manager.css integrations.css event.css app.js manifest.webmanifest service-worker.js /opt/haven/site/
+COPY lib /app/lib
+COPY index.html styles.css settings.css security.css version.css keycloak.css recovery.css app-manager.css integrations.css event.css responsibilities.css command-palette.css resilience.css diagnostics.css attention.css display-settings.css onboarding.css app.js responsibilities-ui.js command-palette.js resilience.js diagnostics-ui.js attention-ui.js display-settings.js onboarding.js offline-data.js daily-planner.js manifest.webmanifest service-worker.js /opt/haven/site/
 COPY icons /opt/haven/site/icons
 COPY vendor /opt/haven/site/vendor
 COPY docker-entrypoint.d/40-haven-config.sh /usr/local/bin/haven-entrypoint

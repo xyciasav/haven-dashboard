@@ -1,0 +1,15 @@
+{
+  "name": "haven-dashboard",
+  "version": "0.10.5",
+  "private": true,
+  "type": "module",
+  "description": "A calm, self-hosted household dashboard.",
+  "scripts": {
+    "check": "node --check server.js && node --check app.js && node --check responsibilities-ui.js && node --check command-palette.js && node --check resilience.js && node --check diagnostics-ui.js && node --check attention-ui.js && node --check display-settings.js && node --check onboarding.js && node --check offline-data.js && node --check daily-planner.js && node --check lib/responsibilities.js && node --check service-worker.js",
+    "test": "node --test",
+    "verify": "npm run check && npm test"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

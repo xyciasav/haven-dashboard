@@ -1,5 +1,7 @@
-const CACHE = 'haven-shell-v0.10.5';
-const SHELL = ['/', '/index.html', '/styles.css?v=0.10.5', '/settings.css?v=0.10.5', '/security.css?v=0.10.5', '/version.css?v=0.10.5', '/keycloak.css?v=0.10.5', '/recovery.css?v=0.10.5', '/app-manager.css?v=0.10.5', '/integrations.css?v=0.10.5', '/event.css?v=0.10.5', '/app.js?v=0.10.5', '/vendor/keycloak.js', '/manifest.webmanifest', '/icons/haven.svg', '/icons/haven-192.png', '/icons/haven-512.png'];
+const CACHE = 'haven-shell-v0.10.5-3';
+const SHELL = ['/', '/index.html', '/styles.css?v=0.10.5', '/settings.css?v=0.10.5', '/security.css?v=0.10.5', '/version.css?v=0.10.5', '/keycloak.css?v=0.10.5', '/recovery.css?v=0.10.5', '/app-manager.css?v=0.10.5', '/integrations.css?v=0.10.5', '/event.css?v=0.10.5', '/responsibilities.css?v=0.10.5', '/command-palette.css?v=0.10.5', '/app.js?v=0.10.5', '/responsibilities-ui.js', '/command-palette.js', '/vendor/keycloak.js', '/manifest.webmanifest', '/icons/haven.svg', '/icons/haven-192.png', '/icons/haven-512.png'];
+
+SHELL.push('/resilience.css?v=0.10.5', '/diagnostics.css?v=0.10.5', '/attention.css?v=0.10.5', '/display-settings.css?v=0.10.5', '/onboarding.css?v=0.10.5', '/resilience.js', '/diagnostics-ui.js', '/attention-ui.js', '/display-settings.js', '/onboarding.js', '/offline-data.js', '/daily-planner.js');
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -22,7 +24,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(fetch(event.request).catch(() => caches.match('/index.html')));
     return;
   }
-  if (pathname === '/app.js' || pathname.endsWith('.css')) {
+  if (pathname.endsWith('.js') || pathname.endsWith('.css')) {
     event.respondWith(fetch(event.request).then(response => {
       const copy = response.clone();
       caches.open(CACHE).then(cache => cache.put(event.request, copy));
