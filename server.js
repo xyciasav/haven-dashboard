@@ -5,7 +5,7 @@ import { createPublicKey, verify as verifySignature, createCipheriv, createDecip
 import { contributionSummary, normalizeResponsibility, responsibilityOccurrences, workloadSummary } from './lib/responsibilities.js';
 
 const port = Number(process.env.PORT || 3000);
-const version = process.env.HAVEN_VERSION || '0.10.5';
+const version = process.env.HAVEN_VERSION || '0.11.0';
 const publicDir = process.env.PUBLIC_DIR || '/app/public';
 const dataDir = process.env.DATA_DIR || '/app/data';
 const settingsFile = join(dataDir,'settings.json');
