@@ -1,10 +1,10 @@
 services:
   haven:
-    image: haven-dashboard:0.12.3
+    image: haven-dashboard:0.12.4
     build:
       context: .
       args:
-        HAVEN_VERSION: 0.12.3
+        HAVEN_VERSION: 0.12.4
     container_name: haven
     restart: unless-stopped
     ports:
@@ -20,7 +20,7 @@ services:
       KEYCLOAK_CLIENT_ID: haven
       HOME_ASSISTANT_URL: ${HOME_ASSISTANT_URL:-}
       HOME_ASSISTANT_TOKEN: ${HOME_ASSISTANT_TOKEN:-}
-      OWNTRACKS_RECORDER_URL: ${OWNTRACKS_RECORDER_URL:-http://owntracks-recorder:8083}
+      OWNTRACKS_RECORDER_URL: ${OWNTRACKS_RECORDER_URL:-http://host.docker.internal:8083}
       OWNTRACKS_USERNAME: ${OWNTRACKS_USERNAME:-}
       OWNTRACKS_PASSWORD: ${OWNTRACKS_PASSWORD:-}
     extra_hosts:
