@@ -54,7 +54,7 @@ renderQuickActionsEditor();
 
 function closeMobileMenu(){document.querySelector('.sidebar').classList.remove('open');document.querySelector('#sidebar-backdrop').classList.remove('open');document.querySelector('#mobile-menu').setAttribute('aria-expanded','false')}
 function toggleMobileMenu(){const open=document.querySelector('.sidebar').classList.toggle('open');document.querySelector('#sidebar-backdrop').classList.toggle('open',open);document.querySelector('#mobile-menu').setAttribute('aria-expanded',String(open))}
-function showPage(name){if(!document.querySelector(`#page-${name}`))name='home';document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===`page-${name}`));document.querySelectorAll('[data-page]').forEach(n=>n.classList.toggle('active',n.dataset.page===name));closeMobileMenu();history.replaceState(null,'',`${location.pathname}${location.search}#${name}`);window.scrollTo({top:0,behavior:'smooth'});if(name==='living-loud'&&window.havenAccessToken)loadLoudDashboard();if(name==='diagnostics'&&window.havenAccessToken)loadDiagnostics()}
+function showPage(name){if(!document.querySelector(`#page-${name}`))name='home';document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===`page-${name}`));document.querySelectorAll('[data-page]').forEach(n=>n.classList.toggle('active',n.dataset.page===name));closeMobileMenu();history.replaceState(null,'',`${location.pathname}${location.search}#${name}`);window.scrollTo({top:0,behavior:'smooth'});if(name==='living-loud'&&window.havenAccessToken)loadLoudDashboard();if(name==='diagnostics'&&window.havenAccessToken)loadDiagnostics();if(name==='location')loadLocation();else pauseLocation()}
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
 document.querySelectorAll('[data-open-settings]').forEach(b=>b.addEventListener('click',()=>showPage('settings')));
 document.querySelector('#mobile-menu').addEventListener('click',toggleMobileMenu);
@@ -194,3 +194,4 @@ import { initializeDisplaySettings } from './display-settings.js';
 import { initializeOnboarding } from './onboarding.js';
 import { cachedUserJson, flushOfflineMutations } from './offline-data.js';
 import { initializeDailyPlanner, loadDailyPlanner, loadDailyWidget, localDateKey } from './daily-planner.js';
+import { loadLocation, pauseLocation } from './location.js';

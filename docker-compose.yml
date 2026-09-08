@@ -22,6 +22,10 @@ services:
       # Set these in Portainer. Never commit the real token.
       HOME_ASSISTANT_URL: ${HOME_ASSISTANT_URL:-}
       HOME_ASSISTANT_TOKEN: ${HOME_ASSISTANT_TOKEN:-}
+      # Recorder stays private; Haven proxies live locations to signed-in users.
+      OWNTRACKS_RECORDER_URL: ${OWNTRACKS_RECORDER_URL:-http://owntracks-recorder:8083}
+      OWNTRACKS_USERNAME: ${OWNTRACKS_USERNAME:-}
+      OWNTRACKS_PASSWORD: ${OWNTRACKS_PASSWORD:-}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     security_opt:

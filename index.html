@@ -30,6 +30,8 @@
   <link rel="stylesheet" href="attention.css?v=0.11.1" />
   <link rel="stylesheet" href="display-settings.css?v=0.11.1" />
   <link rel="stylesheet" href="onboarding.css?v=0.11.1" />
+  <link rel="stylesheet" href="/vendor/leaflet.css?v=1.9.4" />
+  <link rel="stylesheet" href="location.css?v=0.11.1" />
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a><span class="display-mode-indicator hidden" id="display-mode-indicator">Press Esc to exit display mode</span>
@@ -53,6 +55,7 @@
         <button class="nav-item" data-page="apps" aria-label="Applications"><span data-icon="apps"></span><span>Applications</span></button>
         <button class="nav-item" data-page="home-control" aria-label="Home control"><span data-icon="home"></span><span>Home control</span></button>
         <button class="nav-item" data-page="calendar" aria-label="Calendar"><span data-icon="calendar"></span><span>Calendar</span></button>
+        <button class="nav-item" data-page="location" aria-label="Family location"><span data-icon="pin"></span><span>Location</span></button>
         <button class="nav-item" data-page="daily" aria-label="Daily planner"><span data-icon="sliders"></span><span>Daily Planner</span></button>
         <button class="nav-item" data-page="responsibilities" aria-label="Household responsibilities"><span data-icon="checkCircle"></span><span>Responsibilities</span></button>
         <button class="nav-item" data-page="living-loud" aria-label="Night of the Living Loud"><span data-icon="sparkles"></span><span>Living Loud</span></button>
@@ -135,6 +138,7 @@
       <section id="page-apps" class="page"><div class="page-title"><p class="eyebrow">LAUNCHPAD</p><h1>Applications</h1><p>Everything you run, all in one place.</p></div><div class="app-grid all-apps" id="all-apps"></div></section>
       <section id="page-home-control" class="page"><div class="page-title"><p class="eyebrow">HOME ASSISTANT</p><h1>Your home</h1><p>Live entities and controls from Home Assistant.</p></div><div class="entity-toolbar"><input id="entity-search" type="search" placeholder="Search lights, scenes, switches, automations…"><select id="entity-domain"><option value="">All types</option><option value="light">Lights</option><option value="switch">Switches</option><option value="lock">Locks</option><option value="cover">Covers</option><option value="scene">Scenes</option><option value="script">Scripts</option><option value="automation">Automations</option></select></div><div id="home-control-content"><div class="empty-state"><span data-icon="home"></span><h2>Loading Home Assistant</h2><p>Fetching your devices, scenes, and automations.</p></div></div></section>
       <section id="page-calendar" class="page"><div class="page-title"><p class="eyebrow">UP NEXT</p><h1>Calendar</h1><p>Your month at a glance, with an agenda below.</p></div><div id="calendar-content" class="calendar-feed"><div class="empty-state"><span data-icon="calendar"></span><h2>Connect a calendar</h2><p>Add a Home Assistant calendar entity or ICS subscription in Integrations.</p><button class="primary-button" data-page-target="integrations">Configure calendar</button></div></div></section>
+      <section id="page-location" class="page location-page"><div class="location-heading"><div class="page-title"><p class="eyebrow">FAMILY MAP</p><h1>Location</h1><p>Where everyone last checked in, without taking control of your map.</p></div><div class="location-live"><span></span><strong id="location-live-label">Connecting</strong></div></div><div id="location-content"><div class="empty-state"><span data-icon="pin"></span><h2>Opening family map</h2><p>Connecting securely to OwnTracks Recorder.</p></div></div></section>
       <section id="page-daily" class="page"><div class="page-title"><p class="eyebrow">ONE DAY AT A TIME</p><h1>Daily Planner</h1><p>Small things that need to happen today—separate from your calendar.</p></div><section class="daily-planner"><div class="daily-toolbar"><button class="outline-button" id="daily-prev" aria-label="Previous day">←</button><input id="daily-date" type="date"><button class="outline-button" id="daily-next" aria-label="Next day">→</button><button class="outline-button" id="daily-today">Today</button></div><form id="daily-task-form" class="daily-add"><input name="title" maxlength="160" placeholder="Take medicine, go to the post office…" required><input name="time" type="time"><select name="recurrence" aria-label="Repeat task"><option value="none">Does not repeat</option><option value="daily">Every day</option><option value="weekdays">Weekdays</option><option value="weekly">Every week</option><option value="monthly">Every month</option></select><button class="primary-button" type="submit">Add task</button></form><div id="daily-task-list" class="daily-task-list"></div></section></section>
       <section id="page-responsibilities" class="page"><div class="page-title responsibility-page-title"><div><p class="eyebrow">SHARED OWNERSHIP</p><h1>Responsibilities</h1><p>Recurring work, home maintenance, and the load everyone carries.</p></div><button class="primary-button" id="add-responsibility" type="button">Add responsibility</button></div><div id="responsibilities-content"><div class="empty-state"><h2>Loading responsibilities</h2><p>Building the household view.</p></div></div></section>
       <section id="page-living-loud" class="page living-loud-page">
@@ -163,6 +167,7 @@
   <div id="toast" class="toast"><span>✓</span><p></p></div>
   <div id="connection-banner" class="connection-banner hidden" role="status">Haven is offline. Live controls are paused and cached information may be shown.</div>
   <div id="command-palette" class="command-palette hidden"><button class="command-backdrop" id="command-backdrop" aria-label="Close command palette"></button><section class="command-dialog" role="dialog" aria-modal="true" aria-label="Search Haven"><label class="command-search"><span data-icon="search"></span><input id="command-input" type="search" placeholder="Search apps, controls, pages, responsibilities…" autocomplete="off"><button id="command-close" type="button">ESC</button></label><div class="command-results" id="command-results"></div><p class="command-hint">↑↓ navigate · Enter open or run · Esc close</p></section></div>
+  <script src="/vendor/leaflet.js?v=1.9.4"></script>
   <script type="module" src="/app.js?v=0.11.1"></script>
 </body>
 </html>

@@ -20,6 +20,9 @@ services:
       KEYCLOAK_CLIENT_ID: haven
       HOME_ASSISTANT_URL: ${HOME_ASSISTANT_URL:-}
       HOME_ASSISTANT_TOKEN: ${HOME_ASSISTANT_TOKEN:-}
+      OWNTRACKS_RECORDER_URL: ${OWNTRACKS_RECORDER_URL:-http://owntracks-recorder:8083}
+      OWNTRACKS_USERNAME: ${OWNTRACKS_USERNAME:-}
+      OWNTRACKS_PASSWORD: ${OWNTRACKS_PASSWORD:-}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     security_opt:

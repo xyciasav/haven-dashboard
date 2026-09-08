@@ -62,6 +62,10 @@ Weather uses Open-Meteo and requires no API key. Set the location under **Settin
 
 For Cloudflare, route your Tunnel or reverse proxy to `http://haven:3000` when it shares Haven's Docker network, or to `http://YOUR-SERVER:43127`. Use **Full (strict)** TLS mode and keep the public Keycloak redirect URI synchronized with Haven's final HTTPS hostname.
 
+## Family location
+
+The **Location** tab reads current device positions from an existing OwnTracks Recorder through Haven's authenticated backend. Set `OWNTRACKS_RECORDER_URL` in the Haven stack (for example `http://owntracks-recorder:8083`) and, if Recorder requires HTTP Basic authentication, set `OWNTRACKS_USERNAME` and `OWNTRACKS_PASSWORD`. Put both containers on the same Docker network when using the Recorder service name. People and saved places are managed inside the Location tab and stored in the existing `haven-data` volume.
+
 ## Keycloak setup
 
 1. Create a public OpenID Connect client in Keycloak (no client secret) with Standard Flow and PKCE enabled.
