@@ -1,10 +1,10 @@
 services:
   haven:
-    image: haven-dashboard:0.12.4
+    image: haven-dashboard:0.12.5
     build:
       context: .
       args:
-        HAVEN_VERSION: 0.12.4
+        HAVEN_VERSION: 0.12.5
     container_name: haven
     restart: unless-stopped
     ports:
@@ -24,6 +24,7 @@ services:
       HOME_ASSISTANT_TOKEN: ${HOME_ASSISTANT_TOKEN:-}
       # Recorder stays private; Haven proxies live locations to signed-in users.
       OWNTRACKS_RECORDER_URL: ${OWNTRACKS_RECORDER_URL:-http://host.docker.internal:8083}
+      OWNTRACKS_API_PATH: ${OWNTRACKS_API_PATH:-/api/0}
       OWNTRACKS_USERNAME: ${OWNTRACKS_USERNAME:-}
       OWNTRACKS_PASSWORD: ${OWNTRACKS_PASSWORD:-}
     extra_hosts:

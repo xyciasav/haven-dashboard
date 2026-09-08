@@ -1,6 +1,6 @@
 # Haven
 
-Current release: **v0.12.4** · Docker image: `haven-dashboard:0.12.4`
+Current release: **v0.12.5** · Docker image: `haven-dashboard:0.12.5`
 
 A calm, self-hosted home dashboard inspired by Organizr: a user-managed application launcher, daily planning, live weather, Plex activity, Home Assistant controls and calendars, household integrations, and Keycloak authentication.
 
@@ -64,7 +64,7 @@ For Cloudflare, route your Tunnel or reverse proxy to `http://haven:3000` when i
 
 ## Family location
 
-The **Location** tab reads current device positions from an existing OwnTracks Recorder through Haven's authenticated backend. The Compose default is `http://host.docker.internal:8083`, which reaches Recorder's published host port when it runs in a separate stack. If both containers share a Docker network, `http://owntracks-recorder:8083` can be used instead. If Recorder requires HTTP Basic authentication, set `OWNTRACKS_USERNAME` and `OWNTRACKS_PASSWORD`. People and saved places are managed inside the Location tab and stored in the existing `haven-data` volume.
+The **Location** tab reads current device positions from an existing OwnTracks Recorder through Haven's authenticated backend. The Compose default is `http://host.docker.internal:8083`, which reaches Recorder's published host port when it runs in a separate stack. If both containers share a Docker network, `http://owntracks-recorder:8083` can be used instead. `OWNTRACKS_API_PATH` defaults to `/api/0`; set it to `/owntracks/api/0` when a reverse proxy mounts Recorder below `/owntracks`. A full Recorder URL ending in `/api/0` or `/api/0/last` is also accepted. If Recorder requires HTTP Basic authentication, set `OWNTRACKS_USERNAME` and `OWNTRACKS_PASSWORD`. People and saved places are managed inside the Location tab and stored in the existing `haven-data` volume.
 
 ## Keycloak setup
 
