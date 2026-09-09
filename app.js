@@ -194,4 +194,4 @@ import { initializeDisplaySettings } from './display-settings.js';
 import { initializeOnboarding } from './onboarding.js';
 import { cachedUserJson, flushOfflineMutations } from './offline-data.js';
 import { initializeDailyPlanner, loadDailyPlanner, loadDailyWidget, localDateKey } from './daily-planner.js';
-import { loadLocation, pauseLocation } from './location.js';
+import { loadLocation, pauseLocation } from './location.js?v=0.13.2';
