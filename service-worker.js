@@ -1,8 +1,8 @@
-const CACHE = 'haven-shell-v0.12.5-location-1';
-const SHELL = ['/', '/index.html', '/styles.css?v=0.12.5', '/settings.css?v=0.12.5', '/security.css?v=0.12.5', '/version.css?v=0.12.5', '/keycloak.css?v=0.12.5', '/recovery.css?v=0.12.5', '/app-manager.css?v=0.12.5', '/integrations.css?v=0.12.5', '/event.css?v=0.12.5', '/responsibilities.css?v=0.12.5', '/command-palette.css?v=0.12.5', '/app.js?v=0.12.5', '/responsibilities-ui.js', '/command-palette.js', '/vendor/keycloak.js', '/manifest.webmanifest', '/icons/haven.svg', '/icons/haven-192.png', '/icons/haven-512.png'];
+const CACHE = 'haven-shell-v0.12.6-location-1';
+const SHELL = ['/', '/index.html', '/styles.css?v=0.12.6', '/settings.css?v=0.12.6', '/security.css?v=0.12.6', '/version.css?v=0.12.6', '/keycloak.css?v=0.12.6', '/recovery.css?v=0.12.6', '/app-manager.css?v=0.12.6', '/integrations.css?v=0.12.6', '/event.css?v=0.12.6', '/responsibilities.css?v=0.12.6', '/command-palette.css?v=0.12.6', '/app.js?v=0.12.6', '/responsibilities-ui.js', '/command-palette.js', '/vendor/keycloak.js', '/manifest.webmanifest', '/icons/haven.svg', '/icons/haven-192.png', '/icons/haven-512.png'];
 
-SHELL.push('/resilience.css?v=0.12.5', '/diagnostics.css?v=0.12.5', '/attention.css?v=0.12.5', '/display-settings.css?v=0.12.5', '/onboarding.css?v=0.12.5', '/resilience.js', '/diagnostics-ui.js', '/attention-ui.js', '/display-settings.js', '/onboarding.js', '/offline-data.js', '/daily-planner.js');
-SHELL.push('/location.css?v=0.12.5', '/location.js', '/vendor/leaflet.js?v=1.9.4', '/vendor/leaflet.css?v=1.9.4');
+SHELL.push('/resilience.css?v=0.12.6', '/diagnostics.css?v=0.12.6', '/attention.css?v=0.12.6', '/display-settings.css?v=0.12.6', '/onboarding.css?v=0.12.6', '/resilience.js', '/diagnostics-ui.js', '/attention-ui.js', '/display-settings.js', '/onboarding.js', '/offline-data.js', '/daily-planner.js');
+SHELL.push('/location.css?v=0.12.6', '/location.js', '/vendor/leaflet.js?v=1.9.4', '/vendor/leaflet.css?v=1.9.4');
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
