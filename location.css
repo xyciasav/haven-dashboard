@@ -7,7 +7,7 @@
 .location-shell{display:grid;grid-template-columns:minmax(0,1fr) 275px;min-height:620px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 16px 50px rgba(36,48,42,.08)}
 .location-map-wrap{position:relative;z-index:0;isolation:isolate;min-height:620px}
 .location-map{position:absolute;inset:0;background:#e9ede8}
-.location-toolbar{position:absolute;z-index:500;left:14px;top:14px;display:flex;flex-wrap:wrap;gap:7px;max-width:calc(100% - 80px)}
+.location-toolbar{position:absolute;z-index:500;left:58px;top:14px;display:flex;flex-wrap:wrap;gap:7px;max-width:calc(100% - 124px)}
 .location-toolbar button,.location-toolbar label{border:1px solid rgba(205,214,206,.95);background:rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(29,43,36,.1);border-radius:9px;padding:8px 10px;font:600 10px 'DM Sans';color:var(--ink);cursor:pointer}
 .location-toolbar label{display:flex;align-items:center;gap:6px}
 .location-toolbar input{margin:0}
